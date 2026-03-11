@@ -1,7 +1,7 @@
-export const register = async(user)=>{
+export const registroProfesor = async(user)=>{
 
 
-    const response= await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/register`,{
+    const response= await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profesor/registro`,{
         method:"POST",
         body: JSON.stringify(user),
         headers:{
@@ -11,7 +11,7 @@ export const register = async(user)=>{
     const data = await response.json()   
     if (!response.ok){
         alert("algo salio mal en el registro")
-        return;
+        return data;
     }
     return{ok:true}
    

@@ -22,7 +22,7 @@ class User(db.Model):
 
 
 class Profesor(db.Model):
-    __tablename__ = "profesor"
+    # __tablename__ = "profesor"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     nombre: Mapped[str] = mapped_column(String(120), nullable=False)
@@ -48,14 +48,14 @@ class Profesor(db.Model):
         }
 
     def set_password(self, password):
-        self.password = generate_password_hash(password).decode('utf-8')
+        self.password_hash = generate_password_hash(password).decode('utf-8')
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        return check_password_hash(self.password_hash, password)
 
 
 class Alumno(db.Model):
-    __tablename__ = "alumno"
+    # __tablename__ = "alumno"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     nombre: Mapped[str] = mapped_column(String(120), nullable=False)
@@ -64,7 +64,7 @@ class Alumno(db.Model):
     password_hash: Mapped[str] = mapped_column(
         String(255), nullable=True)
     salon_id: Mapped[int] = mapped_column(
-        ForeignKey("salon.id"), nullable=False)
+        ForeignKey("salon.id"), nullable=True)
 
     salon: Mapped["Salon"] = relationship(
         back_populates="alumnos"
@@ -84,14 +84,14 @@ class Alumno(db.Model):
         }
 
     def set_password(self, password):
-        self.password = generate_password_hash(password).decode('utf-8')
+        self.password_hash = generate_password_hash(password).decode('utf-8')
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        return check_password_hash(self.password_hash, password)
 
 
 class Salon(db.Model):
-    __tablename__ = "salon"
+    # __tablename__ = "salon"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     nombre: Mapped[str] = mapped_column(String(50), nullable=False)
@@ -121,7 +121,7 @@ class Salon(db.Model):
 
 
 class Calificacion(db.Model):
-    __tablename__ = "calificacion"
+    # __tablename__ = "calificacion"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     profesor_id: Mapped[int] = mapped_column(
@@ -155,7 +155,7 @@ class Calificacion(db.Model):
 
 
 class Materia(db.Model):
-    __tablename__ = "materia"
+    # __tablename__ = "materia"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     nombre: Mapped[str] = mapped_column(
@@ -174,7 +174,7 @@ class Materia(db.Model):
 
 
 class SalonMateria(db.Model):
-    __tablename__ = "salon_materia"
+    # __tablename__ = "salon_materia"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     salon_id: Mapped[int] = mapped_column(
