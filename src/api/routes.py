@@ -42,48 +42,31 @@ def send_email():
 
     return jsonify({"msg": "Email enviado"}), 200
 
+####AÑADIR JWT PARA COMPROBAR QUE EL ALUMNO ES EL ALUMNO CORRECTO Y QUITAR EL ID DE LA URL
+@api.route('/registro-estudiante/', methods=['PUT'])
+def editando_estudiante():
+    existing_user_id = get_jwt_identity()
+    existing_user = db.session.get(Alumno, int(existing_user_id))
+    if not existing_user:
+        return jsonify({"msg": "Usuario no encontrado"}), 400
+ 
 
-@api.route('/registro-estudiante/<int:id>', methods=['PUT'])
-def editando_estudiante(id):
     data = request.get_json()
-    email = data.get("email")
+
     password = data.get("password")
-    if not email:
-        return jsonify({"msg": "Email requerido"}), 400
 
-    # peticion de un estudiante por ID
-   
-    estudiante = db.session.execute(select(Alumno).where(Alumno.id == id)).scalar_one_or_none()
-    if not estudiante:
-         return jsonify({"msg": "alumnno no enecontrado"}), 400
+    if not password:
+        return jsonify({"msg": "Contraseña requerida"}), 400
     
-    if email:
-        estudiante.email=email
-
-    if password:
-        estudiante.password_hash= generate_password_hash(password)
+    existing_user.set_password(password)
   
    # actualizar los datos
     db.session.commit()
+    return jsonify({"msg": "todoo ok"}), 200
 
 
  
-    # enviar mail con las credenciales
-    msg = Message(
-        subject="actualizacion de datos de acceso a la plataforma",
-        recipients=[email],
-        body=f"""
-                Tus datos de acceso han sido enviados por tu profesor.
-
-                Email: {estudiante.email}
-                Password: {password}
-
-                Puedes iniciar sesión en la plataforma.
-            """
-    )
-    current_app.extensions['mail'].send(msg)
-
-    return jsonify({"msg": "Email enviado"}), 200
+   
 
 
 @api.route('/profesor/registro',methods=['POST'])
@@ -165,18 +148,36 @@ def estudiante_registro():
      if salon.profesor_id != profesor.id:
          return jsonify({"msg":"Este salon no es tuyo"}),404
          
-  
+     alumno_email = data.get("email")
+     alumno_password = data.get("password")
      new_user= Alumno(
          nombre=data.get("nombre"),
-         email=data.get("email"),
-        #  password=data.get("password_hash"),
+         email=alumno_email, 
+        #  ,
          salon_id=salon_id
      )
-     new_user.set_password(data.get("password_hash"))
+     new_user.set_password(data.get("password"))
   
      db.session.add(new_user)
      db.session.commit()
-     return jsonify({'msg': 'El perfil del alumno ha sido creado satisfactoriamente'}), 200
+
+     # enviar mail con las credenciales
+     msg = Message(
+        subject="actualizacion de datos de acceso a la plataforma",
+        recipients=[alumno_email],
+        body=f"""
+                Tus datos de acceso han sido enviados por tu profesor.
+
+                Email: {alumno_email}
+                Password: {alumno_password}
+
+                Puedes iniciar sesión en la plataforma.
+            """
+    )
+     current_app.extensions['mail'].send(msg)
+
+     return jsonify({"msg": "Email enviado"}), 200 
+    #  return jsonify({'msg': 'El perfil del alumno ha sido creado satisfactoriamente'}), 200
   
 
 @api.route('/alumno/login',methods=['POST'])

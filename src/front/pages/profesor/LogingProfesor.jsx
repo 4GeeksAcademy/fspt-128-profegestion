@@ -1,17 +1,20 @@
 import useGlobalReducer from '../../hooks/useGlobalReducer';
 import React, { useEffect, useState } from "react";
-import { registroProfesor } from '../../services/backendService';
+import { Link, useNavigate } from "react-router-dom"
+import { loginProfesor } from '../../services/backendService';
 
 
+export const LoginProfesor = () => {
 
-export const LogingProfesor = () => {
-
+  const navigate = useNavigate()
   const { store, dispatch } = useGlobalReducer()
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("")
   const [user,setUser] = useState({
-   
+
     email: "",
-    password: "",
- 
+    password: ""
+
   });
 
   const handleChange = (e) => {
@@ -23,10 +26,38 @@ export const LogingProfesor = () => {
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
+    setError("");
+    // if (!user.email.trim() || !user.password.trim()) {
+    //   setError("nombre, email y password son requeridos");
+    //   return;
+    // }
+    // if (!user.password.length <8 ) {
+    //   setError("la contraseña tiene que tener almenos 8 caracteres");
+    //   return;
+    // }
+    // if (user.password !== user.confirmPassword) {
+    //   setError("las contraseñas no coinciden, intentalo de nuevo");
+    //   return;
+    // }
 
-    const response = await registroProfesor(user)
+    // setLoading(true)
+    // const response = await registroProfesor(user)
+    // console.log("este es el response--->",response);
+    
+    
+    // if (response.error) {
+    //   setError(response.error)
+    //   setLoading(false)
+    //   return
+    // }
+
+    // setLoading(false)
+    // navigate("/loging-profesor")
+
     return response
   }
+
+
 
   useEffect(() => {
     console.log("estos son los datos de profesor---> ", user);
@@ -55,8 +86,14 @@ export const LogingProfesor = () => {
             <div className="row justify-content-center">
               <div className="col-md-9 col-xl-7">
                 <div className=" d-flex justify-content-around mb-3">
-                  <h5 className=" link-secondary">Registro</h5><h5 className="link-primary">loging</h5>
+                  <h5><Link to="/registro-profesor">Registro</Link></h5><h5><Link To="/loging-profesor">loging</Link></h5>
                 </div>
+
+                { error && (
+                  <div className="alert alert-danger py-2" role="alert">
+                    {error}
+                  </div>
+                )}
 
                 <form onSubmit={handleSubmit}>
 
@@ -108,12 +145,25 @@ export const LogingProfesor = () => {
 
 
                   <button
-                    type="submit"
+                    
                     className="btn btn-lg w-100 text-white shadow-sm"
                     style={{ backgroundColor: '#6200e8' }}
-                   
-                  >
-                    Crear cuenta
+                    type="submit"
+                    disabled={loading}
+                    >
+                      
+                      {loading ? (
+                        <span className="d-inline-flex align-items-center gap-2"
+                        role="status">
+                          <span className="spinner-border text-light"
+                          role="status"
+                          aria-hidden="true"
+                          ></span>creando...
+              
+                        </span>
+                      ) : (
+                        "vamos a por ello"
+                      )}
                   </button>
 
                   <div className="mt-4 text-center">

@@ -1,6 +1,6 @@
 import useGlobalReducer from '../../hooks/useGlobalReducer';
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { registroProfesor } from '../../services/backendService';
 
 
@@ -53,7 +53,7 @@ export const RegistroProfesor = () => {
 		}
 
 		setLoading(false)
-		navigate("/")
+		navigate("/loging-profesor")
 
     return response
   }
@@ -87,7 +87,7 @@ export const RegistroProfesor = () => {
             <div className="row justify-content-center">
               <div className="col-md-9 col-xl-7">
                 <div className=" d-flex justify-content-around mb-3">
-                  <h5><Link to="/registro-profesor">Registro</Link></h5><h5><Link To="">loging</Link></h5>
+                  <h5><Link to="/registro-profesor">Registro</Link></h5><h5><Link To="/loging-profesor">loging</Link></h5>
                 </div>
 
                 { error && (
