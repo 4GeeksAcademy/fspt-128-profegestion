@@ -1,6 +1,25 @@
+import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import React, {useEffect, useState } from "react";
+
 
 
 export const RegistroProfesor = () =>{
+
+  const { store, dispatch } = useGlobalReducer()
+  const { user, setUser} = useState({
+    email:"",
+    password:"",
+    confirmPassword:"",
+  });
+
+  const handleChange = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+
     return(      
 <div className="container-fluid vh-100 p-0">
       <div className="row g-0 h-100">
@@ -22,13 +41,19 @@ export const RegistroProfesor = () =>{
             <div className="row justify-content-center">
               <div className="col-md-9 col-xl-7">
                 <div className=" d-flex justify-content-around mb-3">
-                <h5 className=" link-primary">Registro</h5><h5 className="link-primary">loging</h5>
+                <h5 className=" link-">Registro</h5><h5 className="link-secondary">loging</h5>
                 </div>
+               
                 <form className="needs-validation">
                   
                   <div className="mb-3">
                     <label className="form-label text-secondary">Correo electrónico</label>
-                    <input type="email" className="form-control form-control-lg" placeholder="ejemplo@correo.com" />
+                    <input 
+                    type="email"
+                    className="form-control form-control-lg" 
+                    placeholder="ejemplo@correo.com" 
+                    
+                    />
                   </div>
 
                  
