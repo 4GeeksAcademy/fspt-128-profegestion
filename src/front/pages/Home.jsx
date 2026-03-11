@@ -1,52 +1,47 @@
-import React, { useEffect } from "react"
-import rigoImageUrl from "../assets/img/rigo-baby.jpg";
-import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import React from "react";
+import "../styles/dashboard.css";
 
 export const Home = () => {
+  return (
+    <div className="dashboard-container">
 
-	const { store, dispatch } = useGlobalReducer()
+      <h1 className="dashboard-title">Gestiona tus aulas, alumnos, calificaciones y materias.</h1>
+      <p className="dashboard-subtitle">Todo más claro y ordenado.</p>
 
-	const loadMessage = async () => {
-		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL
+      <div className="cards-grid">
 
-			if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file")
+        <div className="card">
+          <h3>Alumnos</h3>
+          <p className="card-number">214</p>
+          <span>5 nuevos alumnos pendientes de acceso.</span>
+        </div>
 
-			const response = await fetch(backendUrl + "/api/hello")
-			const data = await response.json()
+        <div className="card">
+          <h3>Aulas</h3>
+          <p className="card-number">8</p>
+          <span>2 grupos requieren actualización.</span>
+        </div>
 
-			if (response.ok) dispatch({ type: "set_hello", payload: data.message })
+        <div className="card">
+          <h3>Calificaciones</h3>
+          <p className="card-number">92%</p>
+          <span>La mayoría de notas del periodo ya está cargada.</span>
+        </div>
 
-			return data
+        <div className="card">
+          <h3>Materias</h3>
+          <p className="card-number">6</p>
+          <span>1 materia necesita revisión de evaluación.</span>
+        </div>
 
-		} catch (error) {
-			if (error.message) throw new Error(
-				`Could not fetch the message from the backend.
-				Please check if the backend is running and the backend port is public.`
-			);
-		}
+        <div className="card">
+          <h3>Alumnos activos</h3>
+          <p className="card-number">209</p>
+          <span>La mayoría ya ingresó a su cuenta.</span>
+        </div>
 
-	}
+      </div>
 
-	useEffect(() => {
-		loadMessage()
-	}, [])
-
-	return (
-		<div className="text-center mt-5">
-			<h1 className="display-4">Hello Rigo!!</h1>
-			<p className="lead">
-				<img src={rigoImageUrl} className="img-fluid rounded-circle mb-3" alt="Rigo Baby" />
-			</p>
-			<div className="alert alert-info">
-				{store.message ? (
-					<span>{store.message}</span>
-				) : (
-					<span className="text-danger">
-						Loading message from the backend (make sure your python 🐍 backend is running)...
-					</span>
-				)}
-			</div>
-		</div>
-	);
-}; 
+    </div>
+  );
+};

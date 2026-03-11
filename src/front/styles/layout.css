@@ -1,0 +1,9 @@
+.layout-container {
+  display: flex;
+}
+
+.layout-content {
+  margin-left: 240px;
+  padding: 30px;
+  width: 100%;
+}

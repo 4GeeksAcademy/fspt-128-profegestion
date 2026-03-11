@@ -9,6 +9,11 @@ import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
+import TeacherDashboard from "./pages/TeacherDashboard";
+import { Aulas } from "./pages/Aulas";
+import { Alumnos } from "./pages/Alumnos";
+import { Calificaciones } from "./pages/Calificaciones";
+import { Materias } from "./pages/Materias";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -25,6 +30,11 @@ export const router = createBrowserRouter(
         <Route path= "/" element={<Home />} />
         <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
         <Route path="/demo" element={<Demo />} />
+        <Route path="/dashboard" element={<TeacherDashboard />} />
+        <Route path="/aulas" element={<Aulas />} />
+        <Route path="/alumnos" element={<Alumnos />} />
+        <Route path="/calificaciones" element={<Calificaciones />} />
+        <Route path="/materias" element={<Materias />} />
       </Route>
     )
 );
