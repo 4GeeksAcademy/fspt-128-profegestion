@@ -90,3 +90,6 @@ html {
   transform: translateY(0);
   transition: transform 0.1s linear;
 }
+body {
+  font-family: 'Fira Sans', sans-serif;
+}
