@@ -75,7 +75,7 @@ export const RegistroProfesor = () => {
         // style={{ backgroundImage: "url('/Fondo.png')" }}
         >
           <div className="d-flex text-center p-5 fondo-container ">
-            <h1 className="display-4 fw-bold align-content-center justify-content-center">panel para docenetes</h1>
+            <h1 className="display-4 fw-bold align-content-center justify-content-center">PANEL PARA DOCENTES</h1>
             <p className="lead"></p>
           </div>
         </div>
@@ -87,7 +87,7 @@ export const RegistroProfesor = () => {
               <div className="col-md-9 col-xl-7">
                 <div className=" d-flex justify-content-around mb-3">
                   <Link to="/registro-profesor">Registro</Link>
-                  <Link to="/login-profesor">login</Link>     
+                  <Link to="/login-profesor">Login</Link>     
                 </div>
 
                 { error && (
