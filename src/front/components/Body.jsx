@@ -19,7 +19,7 @@ const Body = () => {
           Organiza clases, alumnos, calificaciones y recursos desde un solo lugar.
         </p>
         <div className="mt-4">
-          <Link to="/profesor/registro">
+          <Link to="/registro-profesor">
             <button className="btn btn-light btn-lg me-2 btn-animate">Accede al portal del profesor</button>
           </Link>
           <a className="btn btn-outline-light btn-lg btn-animate">

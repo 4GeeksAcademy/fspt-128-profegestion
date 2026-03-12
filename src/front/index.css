@@ -30,7 +30,7 @@ html {
 
 /* COMENZAR */
 .cta-section {
-  background: linear-gradient(135deg, #4b00b4, #6200E8);
+  background: linear-gradient(135deg, #6200E8, #6200E8);
 }
 
 /* Buttons */
@@ -92,6 +92,7 @@ html {
 }
 body {
   font-family: 'Fira Sans', sans-serif;
+}
 .fondo-container {
   width: 100%;
   height: 100vh;
