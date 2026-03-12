@@ -7,7 +7,6 @@ import { loginProfesor } from '../../services/backendService';
 export const LoginProfesor = () => {
 
   const navigate = useNavigate()
-  const { store, dispatch } = useGlobalReducer()
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("")
   const [user,setUser] = useState({
@@ -27,37 +26,22 @@ export const LoginProfesor = () => {
   const handleSubmit = async (e) =>{
     e.preventDefault();
     setError("");
-    // if (!user.email.trim() || !user.password.trim()) {
-    //   setError("nombre, email y password son requeridos");
-    //   return;
-    // }
-    // if (!user.password.length <8 ) {
-    //   setError("la contraseña tiene que tener almenos 8 caracteres");
-    //   return;
-    // }
-    // if (user.password !== user.confirmPassword) {
-    //   setError("las contraseñas no coinciden, intentalo de nuevo");
-    //   return;
-    // }
+    if (!user.email.trim() || !user.password.trim()) {
+      setError("email y password son requeridos");
+      return;
+    }
 
-    // setLoading(true)
-    // const response = await registroProfesor(user)
-    // console.log("este es el response--->",response);
-    
-    
-    // if (response.error) {
-    //   setError(response.error)
-    //   setLoading(false)
-    //   return
-    // }
+    setLoading(true)
+    const response = await loginProfesor(user)
 
-    // setLoading(false)
-    // navigate("/loging-profesor")
+     
+
+
+    setLoading(false)
+    navigate("/")
 
     return response
   }
-
-
 
   useEffect(() => {
     console.log("estos son los datos de profesor---> ", user);
@@ -72,7 +56,7 @@ export const LoginProfesor = () => {
 
         <div
           className="  col-lg-5 d-none d-lg-flex align-items-center justify-content-center text-white  "
-        // style={{ backgroundImage: "url('/Fondo.png')" }}
+ 
         >
           <div className="d-flex text-center p-5 fondo-container ">
             <h1 className="display-4 fw-bold align-content-center justify-content-center">panel para docenetes</h1>
@@ -86,7 +70,8 @@ export const LoginProfesor = () => {
             <div className="row justify-content-center">
               <div className="col-md-9 col-xl-7">
                 <div className=" d-flex justify-content-around mb-3">
-                  <h5><Link to="/registro-profesor">Registro</Link></h5><h5><Link To="/loging-profesor">loging</Link></h5>
+                  <Link to="/registro-profesor">Registro</Link>
+                  <Link to="/login-profesor">login</Link>
                 </div>
 
                 { error && (
@@ -94,22 +79,10 @@ export const LoginProfesor = () => {
                     {error}
                   </div>
                 )}
-
+              
                 <form onSubmit={handleSubmit}>
 
-                  <div className="mb-4">
-                    <label className="form-label text-secondary">Nombre</label>
-                    <input
-                      type="text"
-                      className="form-control form-control-lg"
-                      placeholder="jhon doe"
-                      name="nombre"
-                      value={user.nombre}
-                      onChange={handleChange}
-                      required
 
-                    />
-                  </div>
 
                   <div className="mb-4">
                     <label className="form-label text-secondary">Correo electrónico</label>
@@ -158,20 +131,21 @@ export const LoginProfesor = () => {
                           <span className="spinner-border text-light"
                           role="status"
                           aria-hidden="true"
-                          ></span>creando...
+                          ></span>preparando tus cosas...
               
                         </span>
                       ) : (
-                        "vamos a por ello"
+                        "entrar"
                       )}
                   </button>
 
                   <div className="mt-4 text-center">
                     <p className="text-muted small">
-                      ¿Ya tienes cuenta? <a href="#" className="text-decoration-none" style={{ color: '#6200e8' }}>Inicia sesión</a>
+                      ¿No tienes cuenta? <Link to="/registro-profesor" className="text-decoration-none" style={{ color: '#6200e8' }}>Registrate</Link>
                     </p>
                   </div>
                 </form>
+              
 
               </div>
             </div>

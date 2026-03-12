@@ -8,7 +8,6 @@ import { registroProfesor } from '../../services/backendService';
 export const RegistroProfesor = () => {
 
   const navigate = useNavigate()
-  const { store, dispatch } = useGlobalReducer()
   const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("")
   const [user,setUser] = useState({
@@ -32,7 +31,7 @@ export const RegistroProfesor = () => {
 			setError("nombre, email y password son requeridos");
 			return;
 		}
-    		if (!user.password.length <8 ) {
+    		if (user.password.length <8 ) {
 			setError("la contraseña tiene que tener almenos 8 caracteres");
 			return;
 		}
@@ -53,7 +52,7 @@ export const RegistroProfesor = () => {
 		}
 
 		setLoading(false)
-		navigate("/loging-profesor")
+		navigate("/login-profesor")
 
     return response
   }
@@ -87,7 +86,8 @@ export const RegistroProfesor = () => {
             <div className="row justify-content-center">
               <div className="col-md-9 col-xl-7">
                 <div className=" d-flex justify-content-around mb-3">
-                  <h5><Link to="/registro-profesor">Registro</Link></h5><h5><Link To="/loging-profesor">loging</Link></h5>
+                  <Link to="/registro-profesor">Registro</Link>
+                  <Link to="/login-profesor">login</Link>     
                 </div>
 
                 { error && (
@@ -169,17 +169,17 @@ export const RegistroProfesor = () => {
                           <span className="spinner-border text-light"
                           role="status"
                           aria-hidden="true"
-                          ></span>creando...
+                          ></span>registrando...
               
                         </span>
                       ) : (
-                        "vamos a por ello"
+                        "registrate"
                       )}
                   </button>
 
                   <div className="mt-4 text-center">
                     <p className="text-muted small">
-                      ¿Ya tienes cuenta? <a href="#" className="text-decoration-none" style={{ color: '#6200e8' }}>Inicia sesión</a>
+                      ¿Ya tienes cuenta? <Link to="/login-profesor" className="text-decoration-none" style={{ color: '#6200e8' }}>Inicia sesión</Link>
                     </p>
                   </div>
                 </form>
