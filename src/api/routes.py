@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Profesor, Alumno,Salon, Calificacion
+from api.models import db, User, Profesor, Alumno,Salon, Calificacion, Materia
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_mail import Message
@@ -94,6 +94,11 @@ def perfil_profesor():
 
 
 
+
+
+
+#CRUD DE ALUMNO
+
 @api.route('/alumno/registro', methods=['POST'])
 @jwt_required()
 def estudiante_registro():
@@ -125,7 +130,6 @@ def estudiante_registro():
      new_user= Alumno(
          nombre=data.get("nombre"),
          email=data.get("email"),
-        #  password=data.get("password_hash"),
          salon_id=salon_id
      )
      new_user.set_password(data.get("password_hash"))
@@ -154,6 +158,71 @@ def login_estudiante():
      else:
         return jsonify({'msg': 'El correo eletrócnico o password son incorrectos'}), 401
 
+
+@api.route('/alumno/editar/<int:alumno_id>',methods=['PUT'])
+@jwt_required()
+def editar_estudiante(alumno_id):
+     existing_user_id= get_jwt_identity()
+     profesor= db.session.get(Profesor,int(existing_user_id))
+
+     if not profesor:
+        return jsonify({"msg":"Usuario no autorizado"}),401
+
+     data= request.get_json()
+
+     if not data:
+        return jsonify({"msg":"Datos Inválidos"}),400
+     
+     alumno_email=data.get("email")
+     alumno=db.session.get(Alumno,alumno_id)
+     
+     if not alumno:
+         return jsonify({"msg":"Alumno innexistente"}),400
+     
+     salones_profesor= [salon.id for salon in profesor.salones]
+
+     if alumno.salon_id not in salones_profesor:
+         return ({"msg":"El alumno no pertenece a este salon"}),400
+     
+     if alumno_email != alumno.email:
+         existe= db.session.execute(select(Alumno).where(Alumno.email == "email")).first()
+
+         if existe:
+          return jsonify({"msg":"El correo electrónico ya está en uso"}),401
+     
+
+     
+     if "nombre" in data:
+         alumno.nombre=data["nombre"]
+
+     if "email" in data:
+         alumno.email=data["email"]
+
+
+     return jsonify(alumno.serialize()),200
+
+@api.route('/alumno/eliminar/<int:alumno_id>',methods=['DELETE'])
+@jwt_required()
+def eliminar_estudiante(alumno_id):
+     existing_user_id= get_jwt_identity()
+     profesor= db.session.get(Profesor,int(existing_user_id))
+
+     if not profesor:
+        return jsonify({"msg":"Usuario no autorizado"}),401
+     
+     
+     alumno=db.session.get(Alumno,alumno_id)
+     
+     if not alumno:
+         return jsonify({"msg":"Alumno innexistente"}),400
+     
+     db.session.delete(alumno)
+     db.session.commit()
+
+     return jsonify({"msg":"El alumno ha sido borrado exitosamente"}),200
+
+     
+
 @api.route('perfil/alumno', methods=['GET'])
 @jwt_required()
 def perfil_estudiante():
@@ -163,6 +232,15 @@ def perfil_estudiante():
         return jsonify({"msg": "Usuario no encontrado"}), 400
     return jsonify(existing_user.serialize()), 200
 
+
+
+
+
+
+
+
+
+#CURD DE CALIFICACIONES
 
 @api.route('calificaciones/crear', methods=['POST'])
 @jwt_required()
@@ -210,3 +288,290 @@ def crear_calificaciones():
     db.session.commit()
 
     return jsonify(nueva_calificacion.serialize()),201
+
+
+@api.route('calificaciones/editar/<int:calificacion_id>',methods=['PUT'])
+@jwt_required()
+def editar_calificaciones(calificacion_id):
+    existing_user_id= get_jwt_identity()
+    profesor= db.session.get(Profesor,int(existing_user_id))
+
+    if not profesor:
+        return jsonify({"msg":"Usuario no autorizado"}),401
+    
+    calificacion=db.session.get(Calificacion,calificacion_id)
+
+    if not calificacion:
+        return ({"msg":"Calificacion no encontrada"})
+
+
+    alumno= db.session.get(Alumno,calificacion.alumno_id)
+
+    if not alumno:
+        return jsonify({"msg":"Alumno no encontrado"})
+    
+    salones_profesor= [salon.id for salon in profesor.salones]
+    salon_alumno = alumno.salon_id
+
+    if salon_alumno not in salones_profesor:
+       return jsonify({"msg": "Este estudiante no está es ninguna de tus aulas"}), 403
+    
+
+    data= request.get_json()
+
+    if not data:
+        return jsonify({"msg":"Datos Inválidos"}),400
+    
+    if "nota" in data:
+        calificacion.nota= data["nota"]
+
+    db.session.commit()
+
+    return jsonify(calificacion.serialize()),200
+
+
+@api.route('calificaciones/eliminar/<int:calificacion_id>',methods=['DELETE'])
+@jwt_required()
+def eliminar_calificaciones(calificacion_id):
+    existing_user_id= get_jwt_identity()
+    profesor= db.session.get(Profesor,int(existing_user_id))
+
+    if not profesor:
+        return jsonify({"msg":"Usuario no autorizado"}),401
+    
+    calificacion=db.session.get(Calificacion,calificacion_id)
+
+    if not calificacion:
+        return ({"msg":"Calificacion no encontrada"})
+
+
+    alumno= db.session.get(Alumno,calificacion.alumno_id)
+
+    if not alumno:
+        return jsonify({"msg":"Alumno no encontrado"})
+    
+    salones_profesor= [salon.id for salon in profesor.salones]
+    salon_alumno = alumno.salon_id
+
+    if salon_alumno not in salones_profesor:
+       return jsonify({"msg": "Este estudiante no está es ninguna de tus aulas"}), 403
+    
+    
+    db.session.delete(calificacion)
+    db.session.commit()
+
+    return jsonify({"msg":"La calificacion ha sido borrada correctamente"}),200
+    
+
+
+
+
+
+
+
+
+
+
+#CRUD DE SALON
+@api.route('/salon/crear', methods=['POST'])
+@jwt_required()
+def crear_salon():
+    existing_user_id= get_jwt_identity()
+    profesor= db.session.get(Profesor,int(existing_user_id))
+
+    if not profesor:
+        return jsonify({"msg":"Usuario no autorizado"}),401
+    
+    data= request.get_json()
+    if not data:
+        return({"msg":"Datos inválidos"}),400
+    
+    salon_id=data.get("salon_id")
+    salon=db.session.get(Salon,salon_id)
+
+    
+    nombre_salon= data.get("nombre")
+    salones_profesor= [salon.nombre for salon in profesor.salones]
+
+    if nombre_salon is None:
+        return jsonify({"msg":"El nombre del salon es requerido"}),400
+    
+    if nombre_salon in salones_profesor:
+        return jsonify({"msg":"Ya existe un salon con este nombre"}),400
+
+
+
+    classroom=Salon(
+        nombre=nombre_salon,
+        profesor_id=existing_user_id
+    )
+
+    db.session.add(classroom)
+    db.session.commit()
+
+    return jsonify({"msg":"El salon ha sido creado exitosamente"}),200
+
+
+@api.route('/salon/editar/<int:salon_id>', methods=['PUT'])
+@jwt_required()
+def editar_salon(salon_id):
+    existing_user_id= get_jwt_identity()
+    profesor= db.session.get(Profesor,int(existing_user_id))
+
+    if not profesor:
+        return jsonify({"msg":"Usuario no autorizado"}),401
+
+    data= request.get_json()
+    
+    if not data:
+        return({"msg":"Datos inválidos"}),400
+    
+    salon=db.session.get(Salon,salon_id)
+
+    nombre_salon= data.get("nombre")
+    salones_profesor= [salon.nombre for salon in profesor.salones]
+
+    if nombre_salon is None:
+        return jsonify({"msg":"El nombre del salon es requerido"}),400
+    
+    if nombre_salon in salones_profesor:
+        return jsonify({"msg":"Ya existe un salon con este nombre"}),400
+    
+    
+    if "nombre" in data:
+        salon.nombre=data["nombre"]
+    
+    db.session.commit()
+    return jsonify(salon.serialize()),200
+
+
+
+@api.route('salon/eliminar/<int:salon_id>',methods=['DELETE'])
+@jwt_required()
+def eliminar_salon(salon_id):
+    existing_user_id= get_jwt_identity()
+    profesor= db.session.get(Profesor,int(existing_user_id))
+
+    if not profesor:
+        return jsonify({"msg":"Usuario no autorizado"}),401
+    
+    salon=db.session.get(Salon,salon_id)
+
+    if not salon:
+        return ({"msg":"Calificacion no encontrada"}),400
+
+    
+    if salon.profesor_id != profesor.id:
+        return jsonify({"msg":"Ya existe un salon con este nombre"}),400
+    
+    db.session.delete(salon)
+    db.session.commit()
+
+    return jsonify({"msg":"El salon ha sido borrado exitosamente"}),200
+
+
+
+
+
+
+
+
+#CRUD DE MATERIAS
+
+@api.route('/materias/crear',methods=['POST'])
+@jwt_required()
+def crear_materias():
+     existing_user_id= get_jwt_identity()
+     profesor= db.session.get(Profesor,int(existing_user_id))
+
+     if not profesor:
+        return jsonify({"msg":"Usuario no autorizado"}),401
+    
+     data= request.get_json()
+     if not data:
+        return({"msg":"Datos inválidos"}),400
+    
+     materia_id=data.get("materia_id")
+     materia=db.session.get(Materia,materia_id)
+
+     
+     nombre_materia= data.get("nombre")
+
+     if nombre_materia is None:
+         return jsonify({"msg":"El nombre de la materia es requerido"})
+     
+     materia_existente=db.session.execute(select(Materia).where(Materia.nombre == "nombre")).first()
+
+     if materia_existente:
+         return jsonify({"msg":"Ya existe una materia con este nombre"}),400
+     
+     nueva_materia=Materia(
+         nombre=nombre_materia
+     )
+
+     db.session.add(nueva_materia)
+     db.session.commit()
+     return jsonify({"msg":"La materia ha sido creado exitosamente"}),200
+
+
+@api.route('/materias/editar/<int:materia_id>',methods=['PUT'])
+@jwt_required()
+def editar_materias(materia_id):
+     existing_user_id= get_jwt_identity()
+     profesor= db.session.get(Profesor,int(existing_user_id))
+
+     if not profesor:
+        return jsonify({"msg":"Usuario no autorizado"}),401
+    
+     data= request.get_json()
+     if not data:
+        return({"msg":"Datos inválidos"}),400
+    
+    
+     materia=db.session.get(Materia,materia_id)
+
+     
+     nombre_materia= data.get("nombre")
+
+     if nombre_materia is None:
+         return jsonify({"msg":"El nombre de la materia es requerido"})
+     
+
+     materia_existente=db.session.execute(select(Materia).where(Materia.nombre == "nombre")).first()
+
+     if materia_existente:
+         return jsonify({"msg":"Ya existe una materia con este nombre"}),400
+
+
+     if "nombre" in data:
+        materia.nombre=data["nombre"]
+
+     db.session.commit()
+
+     return jsonify(materia.serialize()),200
+
+
+
+@api.route('materias/eliminar/<int:materia_id>',methods=['DELETE'])
+@jwt_required()
+def eliminar_materia(materia_id):
+    existing_user_id= get_jwt_identity()
+    profesor= db.session.get(Profesor,int(existing_user_id))
+
+    if not profesor:
+        return jsonify({"msg":"Usuario no autorizado"}),401
+    
+
+    materia=db.session.get(Materia,materia_id)
+
+    if not materia:
+        return jsonify({"msg": "Materia inexistente"}),400
+    
+    db.session.delete(materia)
+    db.session.commit()
+    
+    return jsonify({"msg":"La materia ha sido borrada exitosamente"}),200
+    
+
+
+    
