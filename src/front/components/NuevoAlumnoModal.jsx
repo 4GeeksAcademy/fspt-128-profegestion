@@ -85,7 +85,8 @@ export const NuevoAlumnoModal = ({
                   className="form-control form-control-lg"
                   placeholder="jhon doe"
                   name="nombre"
-                  value={setUser.nombre}
+                  value={nombre}
+                  onChange={(e)=>setUser(e.target.value)}
                   required
 
                 />
@@ -98,7 +99,8 @@ export const NuevoAlumnoModal = ({
                   className="form-control form-control-lg"
                   placeholder="ejemplo@correo.com"
                   name="email"
-                  value={setUser.email}
+                  onChange={(e)=>setUser(e.target.value)}
+                  value={email}
                   required
 
                 />
@@ -113,7 +115,8 @@ export const NuevoAlumnoModal = ({
                   minLength="8"
                   placeholder="********"
                   name="password"
-                  value={setUser.password}
+                  value={password}
+                  onChange={(e)=>setUser(e.target.value)}
                   required
 
                 />
@@ -122,7 +125,8 @@ export const NuevoAlumnoModal = ({
                   type="text"
                   placeholder="delta"
                   name="salon_id"
-                  value={setUser.salon_id}
+                  value={salon_id}
+                  onChange={(e)=>setUser(e.target.value)}
                   required
                 />
 
@@ -142,14 +146,14 @@ export const NuevoAlumnoModal = ({
             >Close
             </button>
             <button
-
+              onClick={handleSave}
               className="btn btn-lg w-100 text-white shadow-sm"
               style={{ backgroundColor: '#6200e8' }}
               type="submit"
-              disabled={loading}
+              disabled={saving}
             >
 
-              {loading ? (
+              {saving ? (
                 <span className="d-inline-flex align-items-center gap-2"
                   role="status">
                   <span className="spinner-border text-light"
@@ -159,7 +163,7 @@ export const NuevoAlumnoModal = ({
 
                 </span>
               ) : (
-                "registro"
+                "guardado"
               )}
             </button>
 
