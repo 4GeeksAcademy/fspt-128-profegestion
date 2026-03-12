@@ -12,8 +12,9 @@ export const NuevoAlumnoModal = ({
 }) => {
 
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false);
+  const { store, dispatch } = useGlobalReducer
   const [error, setError] = useState("")
+  const [saving, setSaving] = useState("");
   const [user, setUser] = useState({
     nombre: "",
     email: "",
@@ -22,45 +23,40 @@ export const NuevoAlumnoModal = ({
 
   });
 
-  const handleChange = (e) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
-    })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    if (!user.email.trim() || !user.password.trim() || !user.nombre.trim() || !user.salon_id.trim()) {
-      setError("nombre, email, salon y password son requeridos");
-      return;
-    }
-
-
-    setLoading(true)
-    const response = await registroAlumno(user)
-    console.log("este es el response--->", response);
-
-
-    if (response.error) {
-      setError(response.error)
-      setLoading(false)
-      return
-    }
-
-    setLoading(false)
-    navigate("/login-profesor")
-
-    return response
-  }
-
-
 
   useEffect(() => {
-    console.log("estos son los datos del alumno---> ", user);
+    if (show) {
+      setUser();
+      setError("");
+      setSaving(false);
+    }
+  }, [show]);
 
-  }, [user])
+  if (!show) return null;
+
+  const handleSave = async () => {
+    setError("");
+
+
+
+    setSaving(true);
+    const response = await registroAlumno(user)
+    if (response.error) {
+      setError(response.error)
+      setSaving(false)
+      return
+    }
+    dispatch({ type: "auth_set_user", payload: response });
+    navigate("/")  //vista de calificaciones del alumno
+    onClose()
+  };
+
+  const handleClose = () => {
+    console.log("cierra");
+    dispatch({ type: "auth_logout" })
+    onClose();
+
+  };
 
 
   return (
@@ -81,7 +77,7 @@ export const NuevoAlumnoModal = ({
               </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSave}>
               <div className="mb-4">
                 <label className="form-label text-secondary">Nombre</label>
                 <input
@@ -89,8 +85,7 @@ export const NuevoAlumnoModal = ({
                   className="form-control form-control-lg"
                   placeholder="jhon doe"
                   name="nombre"
-                  value={user.nombre}
-                  onChange={handleChange}
+                  value={setUser.nombre}
                   required
 
                 />
@@ -103,8 +98,7 @@ export const NuevoAlumnoModal = ({
                   className="form-control form-control-lg"
                   placeholder="ejemplo@correo.com"
                   name="email"
-                  value={user.email}
-                  onChange={handleChange}
+                  value={setUser.email}
                   required
 
                 />
@@ -119,8 +113,7 @@ export const NuevoAlumnoModal = ({
                   minLength="8"
                   placeholder="********"
                   name="password"
-                  value={user.password}
-                  onChange={handleChange}
+                  value={setUser.password}
                   required
 
                 />
@@ -129,8 +122,7 @@ export const NuevoAlumnoModal = ({
                   type="text"
                   placeholder="delta"
                   name="salon_id"
-                  value={user.salon_id}
-                  onChange={handleChange}
+                  value={setUser.salon_id}
                   required
                 />
 
@@ -142,6 +134,13 @@ export const NuevoAlumnoModal = ({
 
           </div>
           <div class="modal-footer">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              data-bs-dismiss="modal"
+              onClick={handleClose}
+            >Close
+            </button>
             <button
 
               className="btn btn-lg w-100 text-white shadow-sm"
@@ -174,3 +173,8 @@ export const NuevoAlumnoModal = ({
   )
 
 }
+
+
+
+
+
