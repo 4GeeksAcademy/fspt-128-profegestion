@@ -86,7 +86,7 @@ export const NuevoAlumnoModal = ({
                   placeholder="jhon doe"
                   name="nombre"
                   value={nombre}
-                  onChange={(e)=>setUser(e.target.value)}
+                  onChange={(e) => setUser({ ...user, nombre: e.target.value })}
                   required
 
                 />
@@ -99,7 +99,7 @@ export const NuevoAlumnoModal = ({
                   className="form-control form-control-lg"
                   placeholder="ejemplo@correo.com"
                   name="email"
-                  onChange={(e)=>setUser(e.target.value)}
+                  onChange={(e) => setUser({ ...user, email: e.target.value })}
                   value={email}
                   required
 
@@ -116,7 +116,7 @@ export const NuevoAlumnoModal = ({
                   placeholder="********"
                   name="password"
                   value={password}
-                  onChange={(e)=>setUser(e.target.value)}
+                  onChange={(e) => setUser({ ...user, password: e.target.value })}
                   required
 
                 />
@@ -126,7 +126,7 @@ export const NuevoAlumnoModal = ({
                   placeholder="delta"
                   name="salon_id"
                   value={salon_id}
-                  onChange={(e)=>setUser(e.target.value)}
+                  onChange={(e) => setUser({ ...user, salon_id: e.target.value })}
                   required
                 />
 
