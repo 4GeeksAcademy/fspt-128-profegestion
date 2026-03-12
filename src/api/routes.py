@@ -9,6 +9,7 @@ from flask_mail import Message
 from flask import current_app
 from sqlalchemy import select
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, get_jwt
+from flask_bcrypt import generate_password_hash
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
@@ -25,7 +26,7 @@ def handle_hello():
     return jsonify(response_body), 200
 
 
-##esto hay que hacerlo con fetch
+# esto hay que hacerlo con fetch
 @api.route('/send-email', methods=['POST'])
 def send_email():
     data = request.get_json()
@@ -35,11 +36,39 @@ def send_email():
     msg = Message(
         subject="Test Mailtrap",
         recipients=[email],
-        body="Este es un email de prueba enviado desde Flask." 
+        body="Este es un email de prueba enviado desde Flask."
     )
     current_app.extensions['mail'].send(msg)
 
     return jsonify({"msg": "Email enviado"}), 200
+
+####AÑADIR JWT PARA COMPROBAR QUE EL ALUMNO ES EL ALUMNO CORRECTO Y QUITAR EL ID DE LA URL
+@api.route('/registro-estudiante/', methods=['PUT'])
+@jwt_required()
+def editando_estudiante():
+
+    existing_user_id = get_jwt_identity()
+    existing_user = db.session.get(Alumno, int(existing_user_id))
+    if not existing_user:
+        return jsonify({"msg": "Usuario no encontrado"}), 400
+ 
+
+    data = request.get_json()
+    
+    password = data.get("password")
+
+    if not password:
+        return jsonify({"msg": "Contraseña requerida"}), 400
+    
+    existing_user.set_password(password)
+  
+   # actualizar los datos
+    db.session.commit()
+    return jsonify({"msg": "todoo ok"}), 200
+
+
+ 
+   
 
 
 @api.route('/profesor/registro',methods=['POST'])
@@ -74,7 +103,7 @@ def login_profesor():
     existing_user = db.session.execute(select(Profesor).where(Profesor.email == email)).scalar_one_or_none()
     
     if existing_user is None:
-        return jsonify({'msg': 'El correo eletrócnico o password son incorrectos'}), 401
+        return jsonify({'msg': 'El correo eletrónico o password son incorrectos'}), 401
     
     if existing_user.check_password(password):
         access_token = create_access_token(identity=str(existing_user.id))
@@ -121,18 +150,36 @@ def estudiante_registro():
      if salon.profesor_id != profesor.id:
          return jsonify({"msg":"Este salon no es tuyo"}),404
          
-  
+     alumno_email = data.get("email")
+     alumno_password = data.get("password")
      new_user= Alumno(
          nombre=data.get("nombre"),
-         email=data.get("email"),
-        #  password=data.get("password_hash"),
+         email=alumno_email, 
+        #  ,
          salon_id=salon_id
      )
-     new_user.set_password(data.get("password_hash"))
+     new_user.set_password(data.get("password"))
   
      db.session.add(new_user)
      db.session.commit()
-     return jsonify({'msg': 'El perfil del alumno ha sido creado satisfactoriamente'}), 200
+
+     # enviar mail con las credenciales
+     msg = Message(
+        subject="actualizacion de datos de acceso a la plataforma",
+        recipients=[alumno_email],
+        body=f"""
+                Tus datos de acceso han sido enviados por tu profesor.
+
+                Email: {alumno_email}
+                Password: {alumno_password}
+
+                Puedes iniciar sesión en la plataforma.
+            """
+    )
+     current_app.extensions['mail'].send(msg)
+
+     return jsonify({"msg": "Email enviado"}), 200 
+  
   
 
 @api.route('/alumno/login',methods=['POST'])
