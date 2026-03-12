@@ -152,7 +152,16 @@ def estudiante_registro():
 
      return jsonify({"msg": "Email enviado"}), 200 
 
+#verificacion de token en todo momento, back y layout
+@api.route("/get_user", methods=["GET"])
+@jwt_required()
+def get_user():
+    user_id= get_jwt_identity()
+    user = db.session.get(User, int(user_id))
 
+    if not user:
+        return jsonify({"msg":"usuario no encontrado"}),400
+    return jsonify(user.serialize()),200
 
 
 ####AÑADIR JWT PARA COMPROBAR QUE EL ALUMNO ES EL ALUMNO CORRECTO Y QUITAR EL ID DE LA URL

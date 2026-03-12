@@ -1,13 +1,13 @@
 import useGlobalReducer from '../../hooks/useGlobalReducer';
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
-import { loginAlumno } from '../../services/backendService';
+import { editarAlumno, editarAlumno } from '../../services/backendService';
 
 
 export const LoginAlumno = () => {
 
   const navigate = useNavigate()
-
+  const [passwordModal, setpasswordModal] = useState(false)
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("")
   const [user,setUser] = useState({
@@ -33,9 +33,22 @@ export const LoginAlumno = () => {
     }
 
     setLoading(true)
-    const response = await loginAlumno(user)
+    const response = await editarAlumno(user)
+    if (response.error) {
+      setError(response.error)
+      setLoading(false)
+      return
+    }
 
+    const  = response.user?password;  
      
+    dispatch({ type: "auth_login", payload: {token: response.token}});
+    if(!newPassword) {
+      setpasswordModal(true)
+      setLoading(false)
+      return
+    }
+    dispatch({ type: "auth_set_user", payload: response.token});
 
     setLoading(false)
     navigate("/")

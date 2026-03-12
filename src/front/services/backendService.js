@@ -37,7 +37,7 @@ export const loginProfesor = async(user)=>{
 
 
 
-export const loginAlumno =async (user) =>{
+export const editarAlumno =async (user) =>{
 
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/registro-estudiante`,{
         method:"PUT",
@@ -48,6 +48,26 @@ export const loginAlumno =async (user) =>{
         }
 
     })
+}
+
+export const verifyToken = async (token,dispatch) =>{
+    if(!token){
+        dispatch( {type: "auth_set_user", payload: null});
+        return;
+    }
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/get_user`,{
+        headers:{
+            Authorization: `Bearer ${token}`,
+        },
+    },
+);
+if (!response.ok){
+    dispatch({ type: "auth_logout"});
+    return;
+}
+const user =await response.json();
+dispatch({ type: "auth_set_user", payload: user});
+
 }
 
 

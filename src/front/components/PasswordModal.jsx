@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { loginAlumno } from "../services/backendService";
+import { editarAlumno, loginAlumno } from "../services/backendService";
 import { useNavigate } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 
@@ -11,6 +11,7 @@ export const PasswordModal = ({
     const [error, setError] = useState("");
     const [saving, setSaving] =useState("");
     const { store, dispatch } = useGlobalReducer()
+    const [password, setPassword ] = useState()
     const navigate = useNavigate()
 
     useEffect(() =>{
@@ -28,7 +29,7 @@ export const PasswordModal = ({
     // aqui no se que poner.¿tendria que setear aqui la contraseña y guardarla sin serializar..
         
         setSaving(true);
-        const response =await loginAlumno({password})
+        const response =await editarAlumno({password:password})
         if (response.error) {
             setError(response.error)
             setSaving(false)
@@ -87,8 +88,9 @@ export const PasswordModal = ({
                                 type="password"
                                 className="form-control"
                                 placeholder="********"
+                                minLength="8"
                                 value={password}
-                                onChange={(e)=> set_password(e.target.value)}//aqui habria que setear la password?
+                                onChange={(e)=>setPassword(e.target.value)}//handlechain y guardar en usestate
                                 disabled={saving}
                             />
                         </div>
