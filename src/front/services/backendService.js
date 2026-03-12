@@ -36,8 +36,17 @@ export const loginProfesor = async(user)=>{
 };
 
 
+export const registroAlumno = async (user) =>{
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/alumno/registro`,{
+        method:"POST",
+        body: JSON.stringify(user),
+        headers:{
+         "Content-Type":"application/json"
+        }    
+    })
+    
 
-export const editarAlumno =async (user) =>{
+export const Alumno =async (user) =>{
 
     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/registro-estudiante`,{
         method:"PUT",
