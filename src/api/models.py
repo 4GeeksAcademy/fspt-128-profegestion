@@ -24,28 +24,25 @@ class User(db.Model):
 class Profesor(db.Model):
     # __tablename__ = "profesor"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    nombre: Mapped[str] = mapped_column(String(120), nullable=False)
-    email: Mapped[str] = mapped_column(
-        String(120), unique=True, nullable=False)
+    id: Mapped[int] = mapped_column(
+    primary_key=True, autoincrement=True)
+    nombre: Mapped[str] = mapped_column(
+    String(120), nullable=False)
+    email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
 
-    salones: Mapped[List["Salon"]] = relationship(
-        back_populates="profesor",
-        cascade="all, delete-orphan"
-    )
+    salones: Mapped[List["Salon"]] = relationship(back_populates="profesor",cascade="all, delete-orphan")
 
-    calificaciones_realizadas: Mapped[List["Calificacion"]] = relationship(
-        back_populates="profesor",
-        cascade="all, delete-orphan"
-    )
+    calificaciones_realizadas: Mapped[List["Calificacion"]] = relationship(back_populates="profesor",cascade="all, delete-orphan")
 
     def serialize(self):
         return {
             "id": self.id,
             "nombre": self.nombre,
             "email": self.email,
+            "salones":[salon.serialize() for salon in self.salones]
         }
+
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password).decode('utf-8')
