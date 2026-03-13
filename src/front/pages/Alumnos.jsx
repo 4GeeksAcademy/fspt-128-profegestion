@@ -8,12 +8,16 @@ export const Alumnos = () => {
     { id: 3, nombre: "María López", aula: "2ºA" },
   ];
 
+  const onAddClick = () => {
+    
+  }
+
   return (
     <div className="dashboard-container">
       <h1 className="dashboard-title">Alumnos</h1>
       <p className="dashboard-subtitle">Consulta y gestiona tus estudiantes.</p>
 
-      <button className="btn-primary" style={{ marginBottom: "20px" }}>
+      <button onClick={} className="btn-primary" style={{ marginBottom: "20px" }}>
         Añadir alumno
       </button>
 
