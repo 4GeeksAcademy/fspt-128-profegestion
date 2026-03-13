@@ -17,6 +17,7 @@ import { Materias } from "./pages/Materias";
 import { RegistroProfesor } from "./pages/profesor/RegistroProfesor";
 import { LoginProfesor } from "./pages/profesor/LoginProfesor";
 
+
 export const router = createBrowserRouter(
         createRoutesFromElements(
                 // CreateRoutesFromElements function allows you to build route elements declaratively.
