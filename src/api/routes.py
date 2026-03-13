@@ -153,6 +153,7 @@ def estudiante_registro():
      return jsonify({"msg": "Email enviado"}), 200 
 
 #verificacion de token en todo momento, back y layout
+
 @api.route("/get_user", methods=["GET"])
 @jwt_required()
 def get_user():
