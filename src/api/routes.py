@@ -42,34 +42,6 @@ def send_email():
 
     return jsonify({"msg": "Email enviado"}), 200
 
-####AÑADIR JWT PARA COMPROBAR QUE EL ALUMNO ES EL ALUMNO CORRECTO Y QUITAR EL ID DE LA URL
-@api.route('/registro-estudiante/', methods=['PUT'])
-@jwt_required()
-def editando_estudiante():
-
-    existing_user_id = get_jwt_identity()
-    existing_user = db.session.get(Alumno, int(existing_user_id))
-    if not existing_user:
-        return jsonify({"msg": "Usuario no encontrado"}), 400
- 
-
-    data = request.get_json()
-    
-    password = data.get("password")
-
-    if not password:
-        return jsonify({"msg": "Contraseña requerida"}), 400
-    
-    existing_user.set_password(password)
-  
-   # actualizar los datos
-    db.session.commit()
-    return jsonify({"msg": "todoo ok"}), 200
-
-
- 
-   
-
 
 @api.route('/profesor/registro',methods=['POST'])
 def profesor_registro():
@@ -185,6 +157,43 @@ def estudiante_registro():
      current_app.extensions['mail'].send(msg)
 
      return jsonify({"msg": "Email enviado"}), 200 
+
+#verificacion de token en todo momento, back y layout
+
+@api.route("/get_user", methods=["GET"])
+@jwt_required()
+def get_user():
+    user_id= get_jwt_identity()
+    user = db.session.get(User, int(user_id))
+
+    if not user:
+        return jsonify({"msg":"usuario no encontrado"}),400
+    return jsonify(user.serialize()),200
+
+
+####AÑADIR JWT PARA COMPROBAR QUE EL ALUMNO ES EL ALUMNO CORRECTO Y QUITAR EL ID DE LA URL
+@api.route('/registro-estudiante', methods=['PUT'])
+@jwt_required()
+def editando_password_estudiante():
+
+    existing_user_id = get_jwt_identity()
+    existing_user = db.session.get(Alumno, int(existing_user_id))
+    if not existing_user:
+        return jsonify({"msg": "Usuario no encontrado"}), 400
+ 
+
+    data = request.get_json()
+    
+    password = data.get("password")
+
+    if not password:
+        return jsonify({"msg": "Contraseña requerida"}), 400
+    
+    existing_user.set_password(password)
+  
+   # actualizar los datos
+    db.session.commit()
+    return jsonify({"msg": "todoo ok"}), 200
   
   
 
