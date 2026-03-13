@@ -1,7 +1,10 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
 import { Footer } from "../components/Footer";
-
+import { Outlet } from "react-router-dom/dist"
+import ScrollToTop from "../components/ScrollToTop"
+import useGlobalReducer from "../hooks/useGlobalReducer"
+import { useEffect } from "react"
+import { verifyToken } from "../services/backendService"
 
 const Navbar = () => {
   return (
@@ -30,39 +33,30 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
-import { Outlet } from "react-router-dom/dist"
-import ScrollToTop from "../components/ScrollToTop"
-import { Navbar } from "../components/Navbar"
-import { Footer } from "../components/Footer"
-import useGlobalReducer from "../hooks/useGlobalReducer"
-import { useEffect } from "react"
-import { verifyToken } from "../services/backendService"
+}
+
+
 
 export const Layout = () => {
+  const { store, dispatch } = useGlobalReducer()
+    useEffect(() => {
+      verifyToken(store.token, dispatch)
+    }, [store.token])
   return (
-    <>
-      <Navbar />
+    <ScrollToTop>
+      <>
+        <Navbar />
 
-      <div style={{ paddingTop: "90px" }}>
-        <Outlet />
-      </div>
+          <div style={{ paddingTop: "90px" }}>
+            <Outlet />
+          </div>
 
-      <Footer />
-    </>
+        <Footer />
+      </>
+    </ScrollToTop>
   );
 };
 
-const {store, dispatch } = useGlobalReducer()
-useEffect(() =>{
-    verifyToken(store.token, dispatch)
-},[store.token])
 
-    return (
-        <ScrollToTop>
-            <Navbar />
-                <Outlet />
-            <Footer />
-        </ScrollToTop>
-    )
-}
+
+
