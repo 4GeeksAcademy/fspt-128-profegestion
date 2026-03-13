@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/dashboard.css";
+import { Link } from "react-router-dom";
 
 export const Alumnos = () => {
   const alumnos = [
@@ -12,10 +13,11 @@ export const Alumnos = () => {
     <div className="dashboard-container">
       <h1 className="dashboard-title">Alumnos</h1>
       <p className="dashboard-subtitle">Consulta y gestiona tus estudiantes.</p>
-
+      <Link to="/LoginProfesor">
       <button className="btn-primary" style={{ marginBottom: "20px" }}>
         Añadir alumno
       </button>
+      </Link>
 
       <table className="students-table">
         <thead>
