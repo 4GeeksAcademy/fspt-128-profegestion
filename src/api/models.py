@@ -40,7 +40,8 @@ class Profesor(db.Model):
             "id": self.id,
             "nombre": self.nombre,
             "email": self.email,
-            "salones":[salon.serialize() for salon in self.salones]
+            "salones":[salon.serialize() for salon in self.salones],
+            "calificaiones_realizdas": [calificacion.serialize()for calificacion in self.calificacion]
         }
 
 
@@ -114,7 +115,8 @@ class Salon(db.Model):
         return {
             "id": self.id,
             "nombre": self.nombre,
-            "profesor_id": self.profesor_id
+            "profesor_id": self.profesor_id,
+            "materias_asignadas":[salonMateria.serialize()for salonMateria in self.salonMateria]
         }
 
 
@@ -167,7 +169,8 @@ class Materia(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "nombre": self.nombre
+            "nombre": self.nombre,
+            "salones_asignados":[salonMateria.serialize()for salonMateria in self.salonMateria]
         }
 
 
@@ -197,5 +200,7 @@ class SalonMateria(db.Model):
         return {
             "id": self.id,
             "salon_id": self.salon_id,
-            "materia_id": self.materia_id
+            "materia_id": self.materia_id,
+            "calificaciones":[calificacion.serialize()for calificacion in self.calificacion]
+            
         }
