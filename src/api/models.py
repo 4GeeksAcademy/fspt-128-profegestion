@@ -77,7 +77,8 @@ class Alumno(db.Model):
             "id": self.id,
             "nombre": self.nombre,
             "email": self.email,
-            "salon_id": self.salon_id
+            "salon_id": self.salon_id,
+            "calificaciones":[calificacion.serialize() for calificacion in self.calificaciones]
         }
 
     def set_password(self, password):
