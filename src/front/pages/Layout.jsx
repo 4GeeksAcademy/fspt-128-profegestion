@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+
 import { Sidebar } from "../components/Sidebar";
 import "../styles/layout.css";
 import { Outlet } from "react-router-dom/dist"
@@ -10,27 +10,29 @@ import { useEffect } from "react"
 import { verifyToken } from "../services/backendService"
 
 export const Layout = () => {
+  const { store, dispatch } = useGlobalReducer()
+  useEffect(() => {
+    verifyToken(store.token, dispatch)
+  }, [store.token])
+
   return (
-    <div className="layout-container">
+     <div className="layout-container">
       <Sidebar />
 
       <div className="layout-content">
         <Outlet />
+        <ScrollToTop>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </ScrollToTop>
       </div>
     </div>
   );
+  
+
+   
 };
 
-const {store, dispatch } = useGlobalReducer()
-useEffect(() =>{
-    verifyToken(store.token, dispatch)
-},[store.token])
 
-    return (
-        <ScrollToTop>
-            <Navbar />
-                <Outlet />
-            <Footer />
-        </ScrollToTop>
-    )
-}
+

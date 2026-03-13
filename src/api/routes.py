@@ -131,7 +131,6 @@ def estudiante_registro():
      alumno_password = data.get("password")
      new_user= Alumno(
          nombre=data.get("nombre"),
-         email=data.get("email"),
          email=alumno_email, 
         #  ,
          salon_id=salon_id
