@@ -177,7 +177,7 @@ def get_user():
 def editando_password_estudiante():
 
     existing_user_id = get_jwt_identity()
-    existing_user = db.session.get(Alumno, int(existing_user_id))
+    existing_user = db.session.get(Alumno, int(existing_user_id))   
     if not existing_user:
         return jsonify({"msg": "Usuario no encontrado"}), 400
  

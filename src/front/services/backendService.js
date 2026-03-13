@@ -47,7 +47,7 @@ export const registroAlumno = async (user) => {
     },
   );
 };
-// export const Alumno =async (user) =>{
+// export const editpass_Alumno =async (user) =>{
 
 //     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/registro-estudiante`,{
 //         method:"PUT",

@@ -47,7 +47,7 @@ export const NuevoAlumnoModal = ({
       return
     }
     dispatch({ type: "auth_set_user", payload: response });
-    navigate("/")  //vista de calificaciones del alumno
+    navigate("/") 
     onClose()
   };
 
