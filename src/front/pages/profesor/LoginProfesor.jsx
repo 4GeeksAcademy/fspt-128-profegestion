@@ -67,10 +67,12 @@ export const LoginProfesor = () => {
 
         <div className="col-lg-7 d-flex align-items-center bg-white">
           <div className="container p-5">
+              
             <div className="row justify-content-center">
+                    
               <div className="col-md-9 col-xl-7">
                 <div className=" d-flex justify-content-around mb-3">
-                  <Link to="/registro-profesor">Registro</Link>
+                  <Link to="/registro-profesor" className='disabled'>Registro</Link>
                   <Link to="/login-profesor">login</Link>
                 </div>
 

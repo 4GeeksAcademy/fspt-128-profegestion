@@ -9,15 +9,15 @@ import { verifyToken } from "../services/backendService"
 // Base component that maintains the navbar and footer throughout the page and the scroll to top functionality.
 export const Layout = () => {
 
-const {store, dispatch } = useGlobalReducer()
-useEffect(() =>{
-    verifyToken(store.token, dispatch)
-},[store.token])
+    const { store, dispatch } = useGlobalReducer()
+    useEffect(() => {
+        verifyToken(store.token, dispatch)
+    }, [store.token])
 
     return (
         <ScrollToTop>
             <Navbar />
-                <Outlet />
+            <Outlet />
             <Footer />
         </ScrollToTop>
     )
