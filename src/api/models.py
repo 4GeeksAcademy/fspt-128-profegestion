@@ -56,7 +56,7 @@ class Alumno(db.Model):
     # __tablename__ = "alumno"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    role: Mapped[str] = "alumno"
+  
     nombre: Mapped[str] = mapped_column(String(120), nullable=False)
     email: Mapped[str] = mapped_column(
         String(120), unique=True, nullable=False)

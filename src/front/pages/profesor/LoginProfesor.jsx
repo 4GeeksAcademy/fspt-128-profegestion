@@ -38,7 +38,7 @@ export const LoginProfesor = () => {
 
 
     setLoading(false)
-    navigate("/")
+    navigate("/dashboard")
 
     return response
   }
@@ -67,14 +67,14 @@ export const LoginProfesor = () => {
 
         <div className="col-lg-7 d-flex align-items-center bg-white">
           <div className="container p-5">
-              
+              <div className='d-flex justify-content-center mb-4'><h3>Inicia sesión </h3></div>
             <div className="row justify-content-center">
                     
               <div className="col-md-9 col-xl-7">
-                <div className=" d-flex justify-content-around mb-3">
+                {/* <div className=" d-flex justify-content-around mb-3">
                   <Link to="/registro-profesor">Registro</Link>
                   <Link to="/login-profesor">Login</Link>
-                </div>
+                </div> */}
 
                 { error && (
                   <div className="alert alert-danger py-2" role="alert">

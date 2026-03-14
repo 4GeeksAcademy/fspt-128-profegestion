@@ -82,13 +82,14 @@ export const RegistroProfesor = () => {
 
 
         <div className="col-lg-7 d-flex align-items-center bg-white">
-          <div className="container p-5">
+          <div className="d-flex p-5">
             <div className="row justify-content-center">
+              <div className='d-flex justify-content-center mb-3'>Registro docentes</div>
               <div className="col-md-9 col-xl-7">
-                <div className=" d-flex justify-content-around mb-3">
+                {/* <div className=" d-flex justify-content-around ">
                   <Link to="/registro-profesor">Registro</Link>
                   <Link to="/login-profesor">Login</Link>     
-                </div>
+                </div> */}
 
                 { error && (
                   <div className="alert alert-danger py-2" role="alert">

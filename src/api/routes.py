@@ -151,7 +151,7 @@ def estudiante_registro():
                 Email: {alumno_email}
                 Password: {alumno_password}
 
-                Puedes iniciar sesión en la plataforma despues de cambiarlo.
+                Puedes iniciar sesión en la plataforma despues tienes que cambiarlo cambiarlo.
             """
     )
      current_app.extensions['mail'].send(msg)
@@ -210,7 +210,7 @@ def login_estudiante():
      existing_user = db.session.execute(select(Alumno).where(Alumno.email == email)).scalar_one_or_none()
     
      if existing_user is None:
-        return jsonify({'msg': 'El correo eletrónico o password son incorrectos'}), 401
+        return jsonify({'msg': 'El correo electrónico o password son incorrectos'}), 401
     
      if existing_user.check_password(password):
         access_token = create_access_token(identity=str(existing_user.id))
@@ -221,7 +221,7 @@ def login_estudiante():
             "must_change_password" : existing_user.must_change_password
         }), 200
      else:
-        return jsonify({'msg': 'El correo eletrócnico o password son incorrectos'}), 401
+        return jsonify({'msg': 'El correo electrónico o password son incorrectos'}), 401
      
 @api.route('alumno/change-password', methods=["PUT"])
 @jwt_required()

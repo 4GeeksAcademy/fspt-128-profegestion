@@ -72,7 +72,7 @@ export const LoginAlumno = () => {
 
                 >
                     <div className="d-flex text-center p-5 fondo-container ">
-                        <h1 className="display-4 fw-bold align-content-center justify-content-center">panel para docenetes</h1>
+                        <h1 className="display-4 fw-bold align-content-center justify-content-center">Portal del alumno</h1>
                         <p className="lead"></p>
                     </div>
                 </div>

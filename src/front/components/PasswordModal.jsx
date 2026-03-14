@@ -56,6 +56,7 @@ export const PasswordModal = ({
 
     return (
         <>
+            <div className="modal-backdrop fade show"></div>
             <div
                 className={`modal ${show ? "show d-block" : ""}`}
                 tabIndex="-1"
@@ -63,73 +64,76 @@ export const PasswordModal = ({
                 style={{ display: "block" }}
                 aria-modal="true"
             >
-                <div className="modal-dialog-centered">
-                    <div className="modal-content border-0 shadow rounded-4">
-                        <div className="modal-header border-0 pb-0">
-                            <h5 className="modal-title">
-                                Bienvenido
-                            </h5>
 
+                <div className="modal-dialog-centered"> onClick={(e) => e.stopPropagation()}
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">Bienvenido</h5>
                             <button
                                 type="button"
                                 className="btn-close"
                                 aria-label="Close"
                                 onClick={handleClose}
                                 disable={saving}
-                            />
-
+                            ></button>
                         </div>
-                        <div className="modal-body pt-2">
+                        <div className="modal-body">
                             <p>al ser tu primera entrada cambia la password</p>
-                        </div>
-
-                        {error && (
-                            <div className="alert alert-danger py-2" role="alert">
-                                {error}
-                            </div>
-                        )}
-
-                        <label className="form-label">Password</label>
-                        <div className="input-group">
-                            <input
-                                type="password"
-                                className="form-control"
-                                placeholder="********"
-                                minLength="8"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}//handlechain y guardar en usestate
-                                disabled={saving}
-                            />
-                        </div>
-                    </div>
-                    <div className="modal-footer border-0 pt-0">
-
-                        <button
-                            type="button"
-                            className="btn btn -success"
-                            onClick={handleSave}
-                            disable={saving}
-                        >
-                            {saving ? (
-                                <span className="d-inline-flex align-items-center gap-2"
-                                    role="status">
-                                    <span className="spinner-border text-light"
-                                        role="status"
-                                        aria-hidden="true"
-                                    ></span>ya queda poco
-
-                                </span>
-                            ) : (
-                                "entrar"
+                            {error && (
+                                <div className="alert alert-danger py-2" role="alert">
+                                    {error}
+                                </div>
                             )}
-                        </button>
 
+                            <form onsubmit={handleSave}>
+                                <div className="mb-4">
+                                    <label className="form-label text-secondary">Contraseña</label>
+                                    <input
+                                        type="password"
+                                        className="form-control form-control-lg"
+                                        minLength="8"
+                                        placeholder="********"
+                                        name="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        disabled={saving}
+                                        required
+                                    />
+                                </div>
+
+                            </form>
+
+
+                            <div className="modal-footer border-0 pt-0">
+
+                                <button
+                                    type="button"
+                                    className="btn btn -success"
+                                    onClick={handleSave}
+                                    disable={saving}
+                                >
+                                    {saving ? (
+                                        <span className="d-inline-flex align-items-center gap-2"
+                                            role="status">
+                                            <span className="spinner-border text-light"
+                                                role="status"
+                                                aria-hidden="true"
+                                            ></span>ya queda poco
+
+                                        </span>
+                                    ) : (
+                                        "entrar"
+                                    )}
+                                </button>
+
+                            </div>
+
+                        </div>
                     </div>
-
                 </div>
 
-
             </div>
+
         </>
     )
 
