@@ -56,6 +56,7 @@ class Alumno(db.Model):
     # __tablename__ = "alumno"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    role: Mapped[str] = "alumno"
     nombre: Mapped[str] = mapped_column(String(120), nullable=False)
     email: Mapped[str] = mapped_column(
         String(120), unique=True, nullable=False)
@@ -119,7 +120,7 @@ class Salon(db.Model):
             "id": self.id,
             "nombre": self.nombre,
             "profesor_id": self.profesor_id,
-            "materias_asignadas":[salonMateria.serialize()for salonMateria in self.salonMateria]
+            "materias_asignadas":[salonMateria.serialize()for salonMateria in self.materias_asignadas]
         }
 
 
@@ -173,7 +174,7 @@ class Materia(db.Model):
         return {
             "id": self.id,
             "nombre": self.nombre,
-            "salones_asignados":[salonMateria.serialize()for salonMateria in self.salonMateria]
+            "salones_asignados":[salonMateria.serialize()for salonMateria in self.salones_asignados]
         }
 
 
@@ -204,6 +205,6 @@ class SalonMateria(db.Model):
             "id": self.id,
             "salon_id": self.salon_id,
             "materia_id": self.materia_id,
-            "calificaciones":[calificacion.serialize()for calificacion in self.calificacion]
+            "calificaciones":[calificacion.serialize()for calificacion in self.calificaciones]
             
         }
