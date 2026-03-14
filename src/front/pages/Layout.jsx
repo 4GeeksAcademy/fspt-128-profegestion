@@ -7,11 +7,8 @@ import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { Sidebar } from "../components/Sidebar";
 
-
-
-import React from "react";
-import { Outlet } from "react-router-dom/dist"
-
+import useGlobalReducer from "../hooks/useGlobalReducer";
+import { verifyToken } from "../services/backendService";
 
 export const Layout = () => {
   const { store, dispatch } = useGlobalReducer();
@@ -25,15 +22,17 @@ export const Layout = () => {
       <Sidebar />
 
       <div className="layout-content">
-        
-          
+        <ScrollToTop>
+          <>
+            <Navbar />
 
-        <div style={{ paddingTop: "90px" }}>
-          <Outlet />
-        </div>
+            <div style={{ paddingTop: "90px" }}>
+              <Outlet />
+            </div>
 
-          <Footer />
-       
+            <Footer />
+          </>
+        </ScrollToTop>
       </div>
     </div>
   );

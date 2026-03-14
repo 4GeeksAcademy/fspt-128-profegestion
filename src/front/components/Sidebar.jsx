@@ -12,6 +12,7 @@ export const Sidebar = () => {
 
       <div className="sidebar-section">
         <ul>
+          <br/>
           <li><NavLink to="/">Inicio</NavLink></li>
           <li><NavLink to="/aulas">Aulas</NavLink></li>
           <li><NavLink to="/alumnos">Alumnos</NavLink></li>

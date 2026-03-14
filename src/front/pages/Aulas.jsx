@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import "../styles/dashboard.css";
 import { ModalCrearAula } from "../components/ModalCrearAula";
 
-
-
 export const Aulas = () => {
   const [showModal, setShowModal] = useState(false);
   const [aulas, setAulas] = useState([
@@ -28,8 +26,10 @@ export const Aulas = () => {
       const data = await resp.json();
 
       if (resp.ok) {
-        // Añadir aula a la lista local (opcional)
-        setAulas([...aulas, { id: Date.now(), nombre, alumnos: 0, materias: 0 }]);
+        setAulas([
+          ...aulas,
+          { id: Date.now(), nombre, alumnos: 0, materias: 0 },
+        ]);
         setShowModal(false);
       } else {
         alert(data.msg);
@@ -42,7 +42,9 @@ export const Aulas = () => {
   return (
     <div className="dashboard-container">
       <h1 className="dashboard-title">Aulas</h1>
-      <p className="dashboard-subtitle">Gestiona tus grupos y sus asignaturas.</p>
+      <p className="dashboard-subtitle">
+        Gestiona tus grupos y sus asignaturas.
+      </p>
 
       <button
         className="btn-primary"
@@ -52,12 +54,12 @@ export const Aulas = () => {
         Crear nueva aula
       </button>
 
-      {showModal && (
-        <ModalCrearAula
-          onClose={() => setShowModal(false)}
-          onCreate={crearAula}
-        />
-      )}
+      {/* MODAL CORRECTO */}
+      <ModalCrearAula
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onCreate={crearAula}
+      />
 
       <div className="cards-grid">
         {aulas.map((aula) => (
