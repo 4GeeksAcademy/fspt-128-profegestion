@@ -47,18 +47,21 @@ export const registroAlumno = async (user) => {
     },
   );
 };
-// export const editpass_Alumno =async (user) =>{
 
-//     const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/registro-estudiante`,{
-//         method:"PUT",
-//         body: JSON.stringify(user),
-//         headers:{
-//             "Content-Type":"application/json",
-//             Authorization: `Bearer ${localStorage.getItem("token")}`
-//         }
+// fecth del password
 
-//     })
-// }
+export const editpass_Alumno =async (user) =>{
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/registroP-estudiante`,{
+        method:"PUT",
+        body: JSON.stringify(user),
+        headers:{
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+
+    })
+}
 
 export const verifyToken = async (token, dispatch) => {
   if (!token) {

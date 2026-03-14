@@ -141,7 +141,7 @@ def estudiante_registro():
      db.session.add(new_user)
      db.session.commit()
 
-     # enviar mail con las credenciales
+    
      msg = Message(
         subject="actualizacion de datos de acceso a la plataforma",
         recipients=[alumno_email],
@@ -151,14 +151,14 @@ def estudiante_registro():
                 Email: {alumno_email}
                 Password: {alumno_password}
 
-                Puedes iniciar sesión en la plataforma.
+                Puedes iniciar sesión en la plataforma despues de cambiarlo.
             """
     )
      current_app.extensions['mail'].send(msg)
 
      return jsonify({"msg": "Email enviado"}), 200 
 
-#verificacion de token en todo momento, back y layout
+
 
 @api.route("/get_user", methods=["GET"])
 @jwt_required()
@@ -171,10 +171,11 @@ def get_user():
     return jsonify(user.serialize()),200
 
 
-####AÑADIR JWT PARA COMPROBAR QUE EL ALUMNO ES EL ALUMNO CORRECTO Y QUITAR EL ID DE LA URL
-@api.route('/registro-estudiante', methods=['PUT'])
+
+
+@api.route('/registroP-estudiante', methods=['PUT'])
 @jwt_required()
-def editando_password_estudiante():
+def editando_pass_estudiante():
 
     existing_user_id = get_jwt_identity()
     existing_user = db.session.get(Alumno, int(existing_user_id))   
@@ -182,8 +183,7 @@ def editando_password_estudiante():
         return jsonify({"msg": "Usuario no encontrado"}), 400
  
 
-    data = request.get_json()
-    
+    data = request.get_json()   
     password = data.get("password")
 
     if not password:
@@ -191,7 +191,7 @@ def editando_password_estudiante():
     
     existing_user.set_password(password)
   
-   # actualizar los datos
+ 
     db.session.commit()
     return jsonify({"msg": "todoo ok"}), 200
   
@@ -202,19 +202,20 @@ def login_estudiante():
      data = request.get_json()
      email = data.get('email')
      password_hash = data.get('password_hash')
+
      if not email or not password_hash:
         return jsonify({'msg': 'El correo electrónico y password son requeridos'}), 400
     
      existing_user = db.session.execute(select(Alumno).where(Alumno.email == email)).scalar_one_or_none()
     
      if existing_user is None:
-        return jsonify({'msg': 'El correo eletrócnico o password son incorrectos'}), 401
+        return jsonify({'msg': 'El correo eletrónico o password son incorrectos'}), 401
     
      if existing_user.check_password(password_hash):
         access_token = create_access_token(identity=str(existing_user.id))
         return jsonify({'msg': 'Inicio de sesión exitoso', 'token': access_token, 'existing_user': existing_user.serialize()}), 200
      else:
-        return jsonify({'msg': 'El correo eletrócnico o password son incorrectos'}), 401
+        return jsonify({'msg': 'El correo eletrónico o password son incorrectos'}), 401
 
 
 @api.route('/alumno/editar/<int:alumno_id>',methods=['PUT'])

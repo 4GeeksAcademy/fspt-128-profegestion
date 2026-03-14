@@ -33,17 +33,18 @@ export const LoginAlumno = () => {
     }
 
     setLoading(true);
-    const response = await editpassAlumno(user)
+    
+    response = await editpassAlumno(user)
     if (response.error) {
       setError(response.error)
       setLoading(false)
       return
     }
 // en esta linea de abajo dudo del porque
-    const  = response.user?password;  
+    const nueva_pass = response.user? password  
      
     dispatch({ type: "auth_login", payload: {token: response.token}});
-    if(!newPassword) {
+    if(!nueva_pass) {
       setpasswordModal(true)
       setLoading(false)
       return
