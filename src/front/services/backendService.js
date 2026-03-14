@@ -111,3 +111,23 @@ export const verifyToken = async (token, dispatch) => {
   const user = await response.json();
   dispatch({ type: "auth_set_user", payload: user });
 };
+
+
+export const crearMateria = async (user) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/alumno/login`,
+    {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    alert("algo salio mal en el registro");
+    return data;
+  }
+  return data;
+};

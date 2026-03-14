@@ -14,6 +14,8 @@ export const Materias = () => {
       <p className="dashboard-subtitle">Gestiona las asignaturas de tus aulas.</p>
 
       <button className="btn-primary" style={{ marginBottom: "20px" }}>
+
+        
         Añadir materia
       </button>
 
