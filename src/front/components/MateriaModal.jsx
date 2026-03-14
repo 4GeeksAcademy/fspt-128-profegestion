@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 
 
-export const PasswordModal = ({
+export const MateriaModal = ({
     show,
     onClose,
 }) => {
@@ -52,7 +52,7 @@ export const PasswordModal = ({
 
     const handleClose = () => {
         console.log("cierra");
-        dispatch({ type: "auth_logout" })
+     
         onClose();
 
     };
@@ -95,7 +95,7 @@ export const PasswordModal = ({
                                 type="text"
                                 className="form-control"
                                 placeholder="matematicas"
-                                value={nombre}
+                                value={materia}
                                 onChange={(e) => setMateria(e.target.value)}
                                 disabled={saving}
                             />
