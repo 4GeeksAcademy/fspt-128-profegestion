@@ -16,6 +16,7 @@ import { Calificaciones } from "./pages/Calificaciones";
 import { Materias } from "./pages/Materias";
 import { RegistroProfesor } from "./pages/profesor/RegistroProfesor";
 import { LoginProfesor } from "./pages/profesor/LoginProfesor";
+import { LoginAlumno } from "./pages/alumno/LoginAlumno";
 
 
 export const router = createBrowserRouter(
@@ -40,7 +41,7 @@ export const router = createBrowserRouter(
                         <Route path="/materias" element={<Materias />} />
                         <Route path="/registro-profesor" element={<RegistroProfesor />} />
                         <Route path="/login-profesor" element={<LoginProfesor />} />
-                        <Route path="/login-alumno" element={<LoginProfesor />} />
+                        <Route path="/login-alumno" element={<LoginAlumno />} />
                 </Route>
         )
 );

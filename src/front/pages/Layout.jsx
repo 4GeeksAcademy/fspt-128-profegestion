@@ -7,8 +7,11 @@ import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { Sidebar } from "../components/Sidebar";
 
-import useGlobalReducer from "../hooks/useGlobalReducer";
-import { verifyToken } from "../services/backendService";
+
+
+import React from "react";
+import { Outlet } from "react-router-dom/dist"
+
 
 export const Layout = () => {
   const { store, dispatch } = useGlobalReducer();
@@ -25,9 +28,9 @@ export const Layout = () => {
         
           
 
-          <div style={{ paddingTop: "90px" }}>
-            <Outlet />
-          </div>
+        <div style={{ paddingTop: "90px" }}>
+          <Outlet />
+        </div>
 
           <Footer />
        

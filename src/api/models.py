@@ -45,6 +45,8 @@ class Profesor(db.Model):
             "id": self.id,
             "nombre": self.nombre,
             "email": self.email,
+            "salones": [salon.serialize() for salon in self.salones],
+            "calificaciones_realizadas": [calificacion.serialize() for calificacion in self.calificaciones_realizadas]
         }
 
     def set_password(self, password):
@@ -75,12 +77,15 @@ class Alumno(db.Model):
         cascade="all, delete-orphan"
     )
 
+    must_change_password: Mapped[bool] = mapped_column(default=True, nullable=False)
+
     def serialize(self):
         return {
             "id": self.id,
             "nombre": self.nombre,
             "email": self.email,
-            "salon_id": self.salon_id
+            "salon_id": self.salon_id,
+            "must_change_password": self.must_change_password
         }
 
     def set_password(self, password):

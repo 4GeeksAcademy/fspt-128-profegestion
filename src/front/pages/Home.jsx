@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/dashboard.css";
 
+import Navbar from "../components/Navbar.jsx";
 import Body from "../components/Body.jsx";
 import Caracteristicas from "../components/Caracteristicas.jsx";
 import Beneficios from "../components/Beneficios.jsx";
