@@ -10,9 +10,9 @@ import { Sidebar } from "../components/Sidebar";
 
 export const Layout = () => {
   const { store, dispatch } = useGlobalReducer()
-  useEffect(() => {
-    verifyToken(store.token, dispatch)
-  }, [store.token])
+  // useEffect(() => {
+  //   verifyToken(store.token, dispatch)
+  // }, [store.token])
 
   return (
     <div className="layout-container">
