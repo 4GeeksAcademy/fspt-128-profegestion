@@ -131,7 +131,6 @@ def estudiante_registro():
      alumno_password = data.get("password")
      new_user= Alumno(
          nombre=data.get("nombre"),
-         email=data.get("email"),
          email=alumno_email, 
         #  ,
          salon_id=salon_id
@@ -160,6 +159,8 @@ def estudiante_registro():
 
 #verificacion de token en todo momento, back y layout
 
+#REIVSAR PARA QUE VERIFIQUE TANTO PARA PROFESOR COMO PARA ALUMNO
+#NO HAY MODELO USER HAY PROFESOR Y ALUMNO
 @api.route("/get_user", methods=["GET"])
 @jwt_required()
 def get_user():
@@ -201,8 +202,8 @@ def editando_password_estudiante():
 def login_estudiante():
      data = request.get_json()
      email = data.get('email')
-     password_hash = data.get('password_hash')
-     if not email or not password_hash:
+     password = data.get('password')
+     if not email or not password:
         return jsonify({'msg': 'El correo electrónico y password son requeridos'}), 400
     
      existing_user = db.session.execute(select(Alumno).where(Alumno.email == email)).scalar_one_or_none()
@@ -210,11 +211,37 @@ def login_estudiante():
      if existing_user is None:
         return jsonify({'msg': 'El correo eletrócnico o password son incorrectos'}), 401
     
-     if existing_user.check_password(password_hash):
+     if existing_user.check_password(password):
         access_token = create_access_token(identity=str(existing_user.id))
-        return jsonify({'msg': 'Inicio de sesión exitoso', 'token': access_token, 'existing_user': existing_user.serialize()}), 200
+        return jsonify({
+            'msg': 'Inicio de sesión exitoso', 
+            'token': access_token, 
+            'existing_user': existing_user.serialize(), 
+            "must_change_password" : existing_user.must_change_password
+        }), 200
      else:
         return jsonify({'msg': 'El correo eletrócnico o password son incorrectos'}), 401
+     
+@api.route('alumno/change-password', methods=["PUT"])
+@jwt_required()
+def change_password_alumno():
+    alumno_id = get_jwt_identity()
+    data = request.get_json()
+
+    new_password = data.get("new_password")
+    
+    alumno = db.session.get(Alumno, int(alumno_id))
+    if alumno is None:
+        return jsonify({"msg": "Alumno no encontrado"}), 404
+    
+    alumno.set_password(new_password)
+    alumno.must_change_password = False
+    db.session.commit()
+
+    return jsonify({
+        "msg": "Contraseña actualizada correctamente",
+        "user": alumno.serialize()
+    })
 
 
 @api.route('/alumno/editar/<int:alumno_id>',methods=['PUT'])
