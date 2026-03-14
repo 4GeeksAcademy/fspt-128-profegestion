@@ -1,8 +1,9 @@
-import useGlobalReducer from '../../hooks/useGlobalReducer';
+
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 
 import { registroAlumno } from '../services/backendService';
+import useGlobalReducer from "../hooks/useGlobalReducer";
 
 
 
@@ -12,7 +13,7 @@ export const NuevoAlumnoModal = ({
 }) => {
 
   const navigate = useNavigate()
-  const { store, dispatch } = useGlobalReducer
+  const { store, dispatch } = useGlobalReducer()
   const [error, setError] = useState("")
   const [saving, setSaving] = useState("");
   const [user, setUser] = useState({
@@ -26,7 +27,15 @@ export const NuevoAlumnoModal = ({
 
   useEffect(() => {
     if (show) {
-      setUser();
+      setUser(
+        {
+          nombre: "",
+          email: "",
+          password: "",
+          salon_id: "",
+
+        }
+      );
       setError("");
       setSaving(false);
     }
@@ -61,16 +70,27 @@ export const NuevoAlumnoModal = ({
 
   return (
 
+<>
+    <div className="modal-backdrop fade show"></div>
 
-    <div class="modal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">registro Alumno</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div
+      className={`modal ${show ? "show d-block" : ""}`}
+      tabIndex="-1"
+      onClick={handleClose}
+    >
+      <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">Registro Alumno</h5>
+            <button
+              type="button"
+              className="btn-close"
+              aria-label="Close"
+              onClick={handleClose}
+            ></button>
           </div>
-          <div class="modal-body">
 
+          <div className="modal-body">
             {error && (
               <div className="alert alert-danger py-2" role="alert">
                 {error}
@@ -85,10 +105,9 @@ export const NuevoAlumnoModal = ({
                   className="form-control form-control-lg"
                   placeholder="jhon doe"
                   name="nombre"
-                  value={nombre}
+                  value={user.nombre}
                   onChange={(e) => setUser({ ...user, nombre: e.target.value })}
                   required
-
                 />
               </div>
 
@@ -99,13 +118,11 @@ export const NuevoAlumnoModal = ({
                   className="form-control form-control-lg"
                   placeholder="ejemplo@correo.com"
                   name="email"
+                  value={user.email}
                   onChange={(e) => setUser({ ...user, email: e.target.value })}
-                  value={email}
                   required
-
                 />
               </div>
-
 
               <div className="mb-4">
                 <label className="form-label text-secondary">Contraseña</label>
@@ -115,63 +132,49 @@ export const NuevoAlumnoModal = ({
                   minLength="8"
                   placeholder="********"
                   name="password"
-                  value={password}
+                  value={user.password}
                   onChange={(e) => setUser({ ...user, password: e.target.value })}
                   required
-
                 />
-                <label className="form-label text-secondary">asigna el salon</label>
+              </div>
+
+              <div className="mb-4">
+                <label className="form-label text-secondary">Asigna el salón</label>
                 <input
                   type="text"
+                  className="form-control"
                   placeholder="delta"
                   name="salon_id"
-                  value={salon_id}
+                  value={user.salon_id}
                   onChange={(e) => setUser({ ...user, salon_id: e.target.value })}
                   required
                 />
+              </div>
 
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-lg w-100 btn-secondary"
+                  onClick={handleClose}
+                >
+                  Close
+                </button>
+
+                <button
+                  className="btn btn-lg w-100 text-white shadow-sm"
+                  style={{ backgroundColor: "#6200e8" }}
+                  type="submit"
+                  disabled={saving}
+                >
+                  {saving ? "registrando..." : "guardado"}
+                </button>
               </div>
             </form>
-
-
-
-
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-              onClick={handleClose}
-            >Close
-            </button>
-            <button
-              onClick={handleSave}
-              className="btn btn-lg w-100 text-white shadow-sm"
-              style={{ backgroundColor: '#6200e8' }}
-              type="submit"
-              disabled={saving}
-            >
-
-              {saving ? (
-                <span className="d-inline-flex align-items-center gap-2"
-                  role="status">
-                  <span className="spinner-border text-light"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>registrando...
-
-                </span>
-              ) : (
-                "guardado"
-              )}
-            </button>
-
-
           </div>
         </div>
       </div>
     </div>
+  </>
 
 
   )
