@@ -1,4 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600;700&display=swap');
 
+body {
+  font-family: 'Fira Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* BODY */
+.body {
+  background: linear-gradient(135deg, #6200E8, #4b00b4);
+  height: 100vh;
+  padding-top: 80px;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.body-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 130%;
+  background-image: url('/Fondo.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  transform: translateY(0);
+  transition: transform 0.1s linear;
+}
+
+.fondo-container {
+  width: 100%;
+  height: 100vh;
+  background-image: url('/Fondo.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* CARACTERISTICAS */
+.feature-box {
+  border-radius: 12px;
+  background: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-box:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* COMENZAR */
+.cta-section {
+  background: linear-gradient(135deg, #6200E8, #6200E8);
+}
+
+/* Buttons */
+.btn-animate {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-animate:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255,255,255,0.3);
+}
+
+/* Animaciones */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-up {
+  animation: fadeUp 1s ease forwards;
+}
+
+.animate-fade-down {
+  animation: fadeDown 1s ease forwards;
+}
+
+.animate-zoom {
+  animation: zoomIn 0.8s ease forwards;
+}
+
+/* ========================= */
+/*   MODAL — ESTILO FINAL    */
+/* ========================= */
+
+.modal-overlay {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999 !important; /* por encima de TODO */
+}
+
+.modal {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 350px;
+  z-index: 1000000 !important;
+  position: relative;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
 
 .fondo-container {
   width: 100%;
