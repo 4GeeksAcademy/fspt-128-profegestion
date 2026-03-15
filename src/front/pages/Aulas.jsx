@@ -11,10 +11,12 @@ export const Aulas = () => {
   ]);
 
   const crearAula = async (nombre) => {
+    console.log("creando");
+
     try {
       const token = localStorage.getItem("token");
 
-      const resp = await fetch(process.env.BACKEND_URL + "/api/salon/crear", {
+      const resp = await fetch(import.meta.env.BACKEND_URL + "/api/salon/crear", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
