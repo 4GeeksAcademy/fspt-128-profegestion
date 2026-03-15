@@ -12,12 +12,11 @@ export const Sidebar = () => {
 
       <div className="sidebar-section">
         <ul>
-          <br/>
-          <li><NavLink to="/">Inicio</NavLink></li>
-          <li><NavLink to="/aulas">Aulas</NavLink></li>
-          <li><NavLink to="/alumnos">Alumnos</NavLink></li>
-          <li><NavLink to="/calificaciones">Calificaciones</NavLink></li>
-          <li><NavLink to="/materias">Materias</NavLink></li>
+          <li><NavLink to="/dashboard">Inicio</NavLink></li>
+          <li><NavLink to="/dashboard/aulas">Aulas</NavLink></li>
+          <li><NavLink to="/dashboard/alumnos">Alumnos</NavLink></li>
+          <li><NavLink to="/dashboard/calificaciones">Calificaciones</NavLink></li>
+          <li><NavLink to="/dashboard/materias">Materias</NavLink></li>
         </ul>
       </div>
 

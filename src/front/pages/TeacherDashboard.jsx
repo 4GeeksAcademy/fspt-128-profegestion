@@ -5,12 +5,12 @@ import "../styles/dashboard.css";
 export default function TeacherDashboard() {
   const [students, setStudents] = useState([]);
 
-  useEffect(() => {
-    fetch("https://urban-telegram-wrjpp4rx7qp42gg7g-3001.app.github.dev/api/students")
-      .then(res => res.json())
-      .then(data => setStudents(data))
-      .catch(err => console.error("Error cargando estudiantes:", err));
-  }, []);
+  // useEffect(() => {
+  //   fetch("https://urban-telegram-wrjpp4rx7qp42gg7g-3001.app.github.dev/api/students")
+  //     .then(res => res.json())
+  //     .then(data => setStudents(data))
+  //     .catch(err => console.error("Error cargando estudiantes:", err));
+  // }, []);
 
   return (
     <div className="dashboard-container">
