@@ -1,6 +1,6 @@
 import "../styles/layout.css";
 import React, { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import ScrollToTop from "../components/ScrollToTop";
 
 import Navbar from "../components/Navbar";
@@ -12,10 +12,17 @@ import { verifyToken } from "../services/backendService";
 
 export const DashboardLayout = () => {
     const { store, dispatch } = useGlobalReducer();
-
+    const navigate = useNavigate()
     useEffect(() => {
-        verifyToken(store.token, dispatch);
-    }, [store.token, dispatch]);
+        if (localStorage.getItem("token") && localStorage.getItem("role") == "teacher") {
+            console.log("verificando");
+
+            verifyToken(dispatch, navigate);
+        } else {
+            dispatch({ type: "auth_logout" })
+            navigate("/")
+        }
+    }, []);
 
     return (
         <div className="layout-container">

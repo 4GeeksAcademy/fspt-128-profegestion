@@ -5,11 +5,11 @@ import { loginProfesor } from '../../services/backendService';
 
 
 export const LoginProfesor = () => {
-
+  const { store, dispatch } = useGlobalReducer()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("")
-  const [user,setUser] = useState({
+  const [user, setUser] = useState({
 
     email: "",
     password: ""
@@ -23,7 +23,7 @@ export const LoginProfesor = () => {
     })
   }
 
-  const handleSubmit = async (e) =>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     if (!user.email.trim() || !user.password.trim()) {
@@ -33,20 +33,24 @@ export const LoginProfesor = () => {
 
     setLoading(true)
     const response = await loginProfesor(user)
+    console.log(response);
 
-     
+    if (response.msg && !response.token) {
+      setError(response.msg)
+      setLoading(false)
+      return
+    }
+
+    dispatch({ type: "auth_login", payload: { token: response.token, role: "teacher" } });
+    dispatch({ type: "auth_set_user", payload: response.existing_user });
+
 
 
     setLoading(false)
-    navigate("/")
+    navigate("/dashboard")
 
-    return response
+
   }
-
-  useEffect(() => {
-    console.log("estos son los datos de profesor---> ", user);
-
-  }, [user])
 
 
   return (
@@ -56,7 +60,7 @@ export const LoginProfesor = () => {
 
         <div
           className="  col-lg-5 d-none d-lg-flex align-items-center justify-content-center text-white  "
- 
+
         >
           <div className="d-flex text-center p-5 fondo-container ">
             <h1 className="display-4 fw-bold align-content-center justify-content-center">PANEL PARA DOCENTES</h1>
@@ -74,12 +78,12 @@ export const LoginProfesor = () => {
                   <Link to="/login-profesor">Login</Link>
                 </div>
 
-                { error && (
+                {error && (
                   <div className="alert alert-danger py-2" role="alert">
                     {error}
                   </div>
                 )}
-              
+
                 <form onSubmit={handleSubmit}>
 
 
@@ -118,25 +122,25 @@ export const LoginProfesor = () => {
 
 
                   <button
-                    
+
                     className="btn btn-lg w-100 text-white shadow-sm"
                     style={{ backgroundColor: '#6200e8' }}
                     type="submit"
                     disabled={loading}
-                    >
-                      
-                      {loading ? (
-                        <span className="d-inline-flex align-items-center gap-2"
+                  >
+
+                    {loading ? (
+                      <span className="d-inline-flex align-items-center gap-2"
                         role="status">
-                          <span className="spinner-border text-light"
+                        <span className="spinner-border text-light"
                           role="status"
                           aria-hidden="true"
-                          ></span>preparando tus cosas...
-              
-                        </span>
-                      ) : (
-                        "entrar"
-                      )}
+                        ></span>preparando tus cosas...
+
+                      </span>
+                    ) : (
+                      "entrar"
+                    )}
                   </button>
 
                   <div className="mt-4 text-center">
@@ -145,7 +149,7 @@ export const LoginProfesor = () => {
                     </p>
                   </div>
                 </form>
-              
+
 
               </div>
             </div>

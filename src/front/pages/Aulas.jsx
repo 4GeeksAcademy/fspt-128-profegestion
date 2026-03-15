@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/dashboard.css";
 import { ModalCrearAula } from "../components/ModalCrearAula";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 
 export const Aulas = () => {
+  const { store, dispatch } = useGlobalReducer()
   const [showModal, setShowModal] = useState(false);
   const [aulas, setAulas] = useState([
     { id: 1, nombre: "1ºA", alumnos: 28, materias: 6 },
@@ -10,13 +12,27 @@ export const Aulas = () => {
     { id: 3, nombre: "2ºA", alumnos: 30, materias: 7 },
   ]);
 
+  useEffect(() => {
+    if (store.user?.salones) {
+      const newAulas = store.user.salones.map(salon => {
+        return {
+          id: salon.id,
+          nombre: salon.nombre,
+          alumnos: salon.alumnos.length,
+          materias: salon.materias.length
+        }
+      })
+
+      setAulas(newAulas)
+    }
+  }, [store.user])
+
   const crearAula = async (nombre) => {
-    console.log("creando");
 
     try {
       const token = localStorage.getItem("token");
 
-      const resp = await fetch(import.meta.env.BACKEND_URL + "/api/salon/crear", {
+      const resp = await fetch(import.meta.env.VITE_BACKEND_URL + "/api/salon/crear", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

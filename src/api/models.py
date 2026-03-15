@@ -77,7 +77,8 @@ class Alumno(db.Model):
         cascade="all, delete-orphan"
     )
 
-    must_change_password: Mapped[bool] = mapped_column(default=True, nullable=False)
+    must_change_password: Mapped[bool] = mapped_column(
+        default=True, nullable=False)
 
     def serialize(self):
         return {
@@ -85,6 +86,7 @@ class Alumno(db.Model):
             "nombre": self.nombre,
             "email": self.email,
             "salon_id": self.salon_id,
+            "salon": self.salon.nombre,
             "must_change_password": self.must_change_password
         }
 
@@ -121,7 +123,9 @@ class Salon(db.Model):
         return {
             "id": self.id,
             "nombre": self.nombre,
-            "profesor_id": self.profesor_id
+            "profesor_id": self.profesor_id,
+            "alumnos": [alumno.serialize() for alumno in self.alumnos],
+            "materias": [materia.serialize() for materia in self.materias_asignadas]
         }
 
 
@@ -204,5 +208,6 @@ class SalonMateria(db.Model):
         return {
             "id": self.id,
             "salon_id": self.salon_id,
-            "materia_id": self.materia_id
+            "materia_id": self.materia_id,
+            "materia": self.materia.nombre
         }

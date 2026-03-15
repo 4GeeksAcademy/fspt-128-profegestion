@@ -33,6 +33,7 @@ export const loginProfesor = async (user) => {
     alert("algo salio mal en el registro");
     return data;
   }
+  return data;
 };
 
 export const registroAlumno = async (user) => {
@@ -43,9 +44,11 @@ export const registroAlumno = async (user) => {
       body: JSON.stringify(user),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     },
   );
+  console.log(response);
 };
 
 export const loginAlumno = async (user) => {
@@ -89,15 +92,18 @@ export const changeAlumnoPassword = async (newPassword) => {
   return data;
 };
 
-export const verifyToken = async (token, dispatch) => {
-  if (!token) {
-    dispatch({ type: "auth_set_user", payload: null });
+export const verifyToken = async (dispatch, navigate) => {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+  if (!token || !role) {
+    dispatch({ type: "auth_logout" });
+    navigate("/");
     return;
   }
   //SI local.storage.getItem("role") == "alumno" hago la peticion para get_alumno
   //ELSE hago la peticion a get_profesor
   const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_URL}/api/get_user`,
+    `${import.meta.env.VITE_BACKEND_URL}/api/perfil/${role == "teacher" ? "profesor" : "alumno"}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -106,6 +112,7 @@ export const verifyToken = async (token, dispatch) => {
   );
   if (!response.ok) {
     dispatch({ type: "auth_logout" });
+    navigate("/");
     return;
   }
   const user = await response.json();
