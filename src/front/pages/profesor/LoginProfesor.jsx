@@ -38,7 +38,7 @@ export const LoginProfesor = () => {
 
 
     setLoading(false)
-    navigate("/")
+    navigate("/dashboard")
 
     return response
   }

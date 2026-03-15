@@ -47,7 +47,7 @@ export const MateriaModal = ({
         dispatch({ type: "auth_set_user", payload: response.user });
         setSaving(false)
         onClose()
-        navigate("/dashboard")  
+        navigate("/materias")  
     };
 
     const handleClose = () => {
@@ -66,10 +66,10 @@ export const MateriaModal = ({
                 style={{ display: "block" }}
                 aria-modal="true"
             >
-                <div className="modal-dialog-centered">
-                    <div className="modal-content border-0 shadow rounded-4">
-                        <div className="modal-header border-0 pb-0">
-                            <h5 className="modal-title">
+                <div className="modal-dialog-centered ">
+                    <div className="modal-content border-0 shadow rounded-4 ">
+                        <div className="modal-header border-0 pb-0 ">
+                            <h5 className="modal-title ">
                                 crea tus materias
                             </h5>
 
@@ -89,7 +89,7 @@ export const MateriaModal = ({
                             </div>
                         )}
 
-                        <label className="form-label">Materia</label>
+                        <label className="form-label ">Materia</label>
                         <div className="input-group">
                             <input
                                 type="text"
@@ -100,29 +100,29 @@ export const MateriaModal = ({
                                 disabled={saving}
                             />
                         </div>
-                    </div>
-                    <div className="modal-footer border-0 pt-0">
+                    
+                        <div className="modal-footer border-0 pt-0">
 
-                        <button
-                            type="button"
-                            className="btn btn -success"
-                            onClick={handleSave}
-                            disable={saving}
-                        >
-                            {saving ? (
-                                <span className="d-inline-flex align-items-center gap-2"
-                                    role="status">
-                                    <span className="spinner-border text-light"
-                                        role="status"
-                                        aria-hidden="true"
-                                    ></span>ya queda poco
+                            <button
+                                type="button"
+                                className="btn btn -success"
+                                onClick={handleSave}
+                                disable={saving}
+                            >
+                                {saving ? (
+                                    <span className="d-inline-flex align-items-center gap-2"
+                                        role="status">
+                                        <span className="spinner-border text-light"
+                                            role="status"
+                                            aria-hidden="true"
+                                        ></span>ya queda poco
 
-                                </span>
-                            ) : (
-                                "entrar"
-                            )}
-                        </button>
-
+                                    </span>
+                                ) : (
+                                    "creando"
+                                )}
+                            </button>
+                        </div>                  
                     </div>
 
                 </div>

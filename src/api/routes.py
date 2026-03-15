@@ -563,6 +563,16 @@ def eliminar_salon(salon_id):
 
 #CRUD DE MATERIAS
 
+@api.route('listado/materias', methods=['GET'])
+@jwt_required()
+def obtener_materias():
+
+    materias = db.session.execute(db.select(Materia)).scalars().all()
+    lista_materias = [m.serialize() for m in materias]
+        
+    return jsonify(lista_materias), 200
+
+
 @api.route('/materias/crear',methods=['POST'])
 @jwt_required()
 def crear_materias():
@@ -575,24 +585,24 @@ def crear_materias():
      data= request.get_json()
      if not data:
         return({"msg":"Datos inválidos"}),400
-    
-     materia_id=data.get("materia_id")
-     materia=db.session.get(Materia,materia_id)
-
      
      nombre_materia= data.get("nombre")
+     if not nombre_materia:
+         return jsonify({"msg":"el nombre de la materia es requerido"})
+     materia_id=data.get("materia_id")
+     materia_existente =db.session.get(Materia,materia_id)
 
      if nombre_materia is None:
          return jsonify({"msg":"El nombre de la materia es requerido"})
-     
-     materia_existente=db.session.execute(select(Materia).where(Materia.nombre == "nombre")).first()
-
+        
+     materia_existente = db.session.execute(select(Materia).where(Materia.nombre == nombre_materia)).scalar()
      if materia_existente:
          return jsonify({"msg":"Ya existe una materia con este nombre"}),400
      
      nueva_materia=Materia(
          nombre=nombre_materia
      )
+    
 
      db.session.add(nueva_materia)
      db.session.commit()

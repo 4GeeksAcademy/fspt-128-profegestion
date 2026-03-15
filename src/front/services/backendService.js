@@ -113,18 +113,21 @@ export const verifyToken = async (token, dispatch) => {
 };
 
 
-export const crearMateria = async (user) => {
-  const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_URL}/api/alumno/login`,
+export const crearMateria = async (materia,token) => {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/materias/crear`,
     {
       method: "POST",
-      body: JSON.stringify(user),
+      body: JSON.stringify(),     
+        nombre: materia ,
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
       },
     },
   );
   const data = await response.json();
+  console.log(data);
+  
   if (!response.ok) {
     alert("algo salio mal en el registro");
     return data;

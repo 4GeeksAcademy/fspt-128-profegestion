@@ -24,7 +24,7 @@ export const PasswordModal = ({
 
     if (!show) return null;
 
-    const handleSave = async () => {
+    const handleSave = async (dispatch) => {
         console.log("funciona");
 
         setError("");
@@ -44,7 +44,7 @@ export const PasswordModal = ({
         dispatch({ type: "auth_set_user", payload: response.user });
         setSaving(false)
         onClose()
-        navigate("/alumno")  //vista de calificaciones del alumno
+        navigate("/alumno")  
     };
 
     const handleClose = () => {
