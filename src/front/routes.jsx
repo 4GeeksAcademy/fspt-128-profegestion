@@ -17,6 +17,7 @@ import { Materias } from "./pages/Materias";
 import { RegistroProfesor } from "./pages/profesor/RegistroProfesor";
 import { LoginProfesor } from "./pages/profesor/LoginProfesor";
 import { LoginAlumno } from "./pages/alumno/LoginAlumno";
+import { DashboardLayout } from "./pages/DashboardLayout";
 
 
 export const router = createBrowserRouter(
@@ -28,20 +29,24 @@ export const router = createBrowserRouter(
                 // Note: The child paths of the Layout element replace the Outlet component with the elements contained in the "element" attribute of these child paths.
 
                 // Root Route: All navigation will start from here.
-                <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>} >
+                <>
+                        <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>} >
 
-                        {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
-                        <Route path="/" element={<Home />} />
-                        <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
-                        <Route path="/demo" element={<Demo />} />
-                        <Route path="/dashboard" element={<TeacherDashboard />} />
-                        <Route path="/aulas" element={<Aulas />} />
-                        <Route path="/alumnos" element={<Alumnos />} />
-                        <Route path="/calificaciones" element={<Calificaciones />} />
-                        <Route path="/materias" element={<Materias />} />
-                        <Route path="/registro-profesor" element={<RegistroProfesor />} />
-                        <Route path="/login-profesor" element={<LoginProfesor />} />
-                        <Route path="/login-alumno" element={<LoginAlumno />} />
-                </Route>
+                                {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
+                                <Route path="/" element={<Home />} />
+                                <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
+                                <Route path="/demo" element={<Demo />} />
+                                <Route path="/registro-profesor" element={<RegistroProfesor />} />
+                                <Route path="/login-profesor" element={<LoginProfesor />} />
+                                <Route path="/login-alumno" element={<LoginAlumno />} />
+                        </Route>
+                        <Route path="dashboard" element={<DashboardLayout />}>
+                                <Route index element={<TeacherDashboard />} />
+                                <Route path="aulas" element={<Aulas />} />
+                                <Route path="alumnos" element={<Alumnos />} />
+                                <Route path="calificaciones" element={<Calificaciones />} />
+                                <Route path="materias" element={<Materias />} />
+                        </Route>
+                </>
         )
 );
