@@ -1,16 +1,33 @@
 import React, { useEffect, useState } from "react";
 import StudentTable from "../components/StudentTable";
 import "../styles/dashboard.css";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 
 export default function TeacherDashboard() {
-  const [students, setStudents] = useState([]);
+  const { store, dispatch } = useGlobalReducer()
 
-  // useEffect(() => {
-  //   fetch("https://urban-telegram-wrjpp4rx7qp42gg7g-3001.app.github.dev/api/students")
-  //     .then(res => res.json())
-  //     .then(data => setStudents(data))
-  //     .catch(err => console.error("Error cargando estudiantes:", err));
-  // }, []);
+
+  const [students, setStudents] = useState([]);
+  const [subjects, setSubjects] = useState([])
+
+
+  useEffect(() => {
+    if (store.user) {
+      const alumnos = store.user?.salones?.reduce((prev, current) => { return [...prev, ...current.alumnos] }, [])
+      const materias = store.user?.salones?.reduce((prev, current) => { return [...prev, ...current.materias] }, [])
+
+
+      if (alumnos.length) {
+        setStudents(alumnos)
+      }
+      if (materias.length) {
+        setSubjects(materias)
+      }
+
+    }
+
+
+  }, [store.user])
 
   return (
     <div className="dashboard-container">
@@ -26,7 +43,7 @@ export default function TeacherDashboard() {
 
         <div className="card">
           <h3>Materias</h3>
-          <p className="card-number">6</p>
+          <p className="card-number">{subjects.length}</p>
           <span>Materias activas este periodo.</span>
         </div>
 

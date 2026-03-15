@@ -5,7 +5,7 @@ const Body = () => {
     <header
       className="hero d-flex align-items-center"
       style={{
-        backgroundImage: "url('/Fondo.png')",   
+        backgroundImage: "url('/Fondo.png')",
         backgroundAttachment: "fixed",
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -22,9 +22,11 @@ const Body = () => {
           <Link to="/registro-profesor">
             <button className="btn btn-light btn-lg me-2 btn-animate">Accede al portal del profesor</button>
           </Link>
-          <a className="btn btn-outline-light btn-lg btn-animate">
-            Accede al portal del alumno
-          </a>
+          <Link to={"/login-alumno"}>
+            <a className="btn btn-outline-light btn-lg btn-animate">
+              Accede al portal del alumno
+            </a>
+          </Link>
         </div>
       </div>
     </header>

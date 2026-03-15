@@ -7,7 +7,6 @@ import Comenzar from "../components/Comenzar.jsx";
 export const Home = () => {
   return (
     <>
-      <Navbar />
       <Body />
       <Caracteristicas />
       <Beneficios />

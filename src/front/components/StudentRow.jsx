@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 export default function StudentRow({ student }) {
+  console.log(student);
+
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
@@ -21,12 +23,12 @@ export default function StudentRow({ student }) {
 
   return (
     <tr>
-      <td>{student.name}</td>
-      <td>{student.subject}</td>
+      <td>{student.nombre}</td>
+      <td>{student.salon}</td>
       <td>{student.grade}</td>
       <td>
         {!sent ? (
-          <button 
+          <button
             className="btn-primary"
             onClick={handleSend}
             disabled={loading}

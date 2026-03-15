@@ -29,6 +29,7 @@ export const Alumnos = () => {
       <button onClick={onAddClick} className="btn-primary" style={{ marginBottom: "20px" }}>
         Añadir alumno
       </button>
+ 
 
       <table className="students-table">
         <thead>

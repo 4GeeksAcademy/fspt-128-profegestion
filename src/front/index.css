@@ -14,6 +14,34 @@ html {
   background: linear-gradient(135deg, #6200E8, #4b00b4);
   height: 100vh;
   padding-top: 80px;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.body-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 130%;
+  background-image: url('/Fondo.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  transform: translateY(0);
+  transition: transform 0.1s linear;
+}
+
+.fondo-container {
+  width: 100%;
+  height: 100vh;
+  background-image: url('/Fondo.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* CARACTERISTICAS */
@@ -70,29 +98,40 @@ html {
 .animate-zoom {
   animation: zoomIn 0.8s ease forwards;
 }
-.body {
-  position: relative;
-  min-height: 100vh;
-  overflow: hidden;
-}
 
-.body-bg {
-  position: absolute;
+/* ========================= */
+/*   MODAL — ESTILO FINAL    */
+/* ========================= */
+
+.modal-overlay {
+  position: fixed !important;
   top: 0;
   left: 0;
   width: 100%;
-  height: 130%;
-  background-image: url('/Fondo.png'); /* o .jpg */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: -1;
-  transform: translateY(0);
-  transition: transform 0.1s linear;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999 !important; /* por encima de TODO */
 }
-body {
-  font-family: 'Fira Sans', sans-serif;
+
+.modal {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 350px;
+  z-index: 1000000 !important;
+  position: relative;
 }
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
 .fondo-container {
   width: 100%;
   height: 100vh;
