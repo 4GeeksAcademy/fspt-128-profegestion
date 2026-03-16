@@ -10,6 +10,7 @@ import useGlobalReducer from "../hooks/useGlobalReducer";
 export const NuevoAlumnoModal = ({
   show,
   onClose,
+  onCreate
 }) => {
 
   const navigate = useNavigate()
@@ -138,7 +139,7 @@ export const NuevoAlumnoModal = ({
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="delta"
+                    placeholder="Nº salon"
                     name="salon_id"
                     value={user.salon_id}
                     onChange={(e) => setUser({ ...user, salon_id: e.target.value })}

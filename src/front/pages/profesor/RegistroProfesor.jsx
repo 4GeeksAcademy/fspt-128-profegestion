@@ -84,6 +84,7 @@ export const RegistroProfesor = () => {
         <div className="col-lg-7 d-flex align-items-center bg-white">
           <div className="container p-5">
             <div className="row justify-content-center">
+              <div className="d-flex justify-content-center mt-2" style={{ color: '#6200e8' }}> <h3> REGISTRO </h3></div>
               <div className="col-md-9 col-xl-7">
                 <div className=" d-flex justify-content-around mb-3">
                   <Link to="/registro-profesor">Registro</Link>
