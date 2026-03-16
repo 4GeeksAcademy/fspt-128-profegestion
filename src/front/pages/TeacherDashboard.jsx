@@ -9,25 +9,61 @@ export default function TeacherDashboard() {
 
   const [students, setStudents] = useState([]);
   const [subjects, setSubjects] = useState([])
+  const [gradesPercentage, setGradesPercentage] = useState(0);
 
 
   useEffect(() => {
-    if (store.user) {
-      const alumnos = store.user?.salones?.reduce((prev, current) => { return [...prev, ...current.alumnos] }, [])
-      const materias = store.user?.salones?.reduce((prev, current) => { return [...prev, ...current.materias] }, [])
+    if (!store.user?.salones) return;
 
+    const alumnos = store.user.salones.reduce((acc, salon) => {
+      const totalMaterias = salon.materias.length;
 
-      if (alumnos.length) {
-        setStudents(alumnos)
-      }
-      if (materias.length) {
-        setSubjects(materias)
-      }
+      const alumnosConPromedio = salon.alumnos.map((alumno) => {
+        const sumaNotas = alumno.calificaciones.reduce(
+          (sum, calificacion) => sum + calificacion.nota,
+          0
+        );
 
-    }
+        const promedio = totalMaterias > 0
+          ? sumaNotas / totalMaterias
+          : 0;
 
+        return {
+          ...alumno,
+          promedio,
+          totalMaterias,
+          materiasCalificadas: alumno.calificaciones.length,
+          salonNombre: salon.nombre,
+        };
+      });
 
-  }, [store.user])
+      return [...acc, ...alumnosConPromedio];
+    }, []);
+
+    const materias = store.user.salones.reduce((acc, salon) => {
+      return [...acc, ...salon.materias];
+    }, []);
+
+    const totalNotasEsperadas = store.user.salones.reduce((acc, salon) => {
+      return acc + (salon.alumnos.length * salon.materias.length);
+    }, 0);
+
+    const totalNotasRegistradas = store.user.salones.reduce((acc, salon) => {
+      const notasSalon = salon.alumnos.reduce((sum, alumno) => {
+        return sum + alumno.calificaciones.length;
+      }, 0);
+
+      return acc + notasSalon;
+    }, 0);
+
+    const porcentaje = totalNotasEsperadas > 0
+      ? (totalNotasRegistradas / totalNotasEsperadas) * 100
+      : 0;
+
+    setStudents(alumnos);
+    setSubjects(materias);
+    setGradesPercentage(Number(porcentaje.toFixed(2)));
+  }, [store.user]);
 
   return (
     <div className="dashboard-container">
@@ -49,7 +85,7 @@ export default function TeacherDashboard() {
 
         <div className="card">
           <h3>Calificaciones cargadas</h3>
-          <p className="card-number">92%</p>
+          <p className="card-number">{gradesPercentage}</p>
           <span>Notas registradas correctamente.</span>
         </div>
       </div>
