@@ -36,28 +36,6 @@ export default function storeReducer(store, action = {}) {
         ),
       };
 
-<<<<<<< HEAD
-    
-
-    case 'auth_login':{
-
-      const { token } =action.payload;
-      localStorage.setItem("token",token);
-      return {...store,token };
-    }
-
-    case 'auth_set_user':{
-      return { ...store, user:action.payload };
-
-    }
-
-    case 'auth_logout':
-      localStorage.removeItem("token")
-      return{...store, token:null, user: null };
-    default:
-      throw Error('unknow action.');
-  } 
-=======
     case "auth_login": {
       const { token, role } = action.payload;
       localStorage.setItem("token", token);
@@ -75,5 +53,4 @@ export default function storeReducer(store, action = {}) {
     default:
       throw Error("unknow action.");
   }
->>>>>>> develop
 }

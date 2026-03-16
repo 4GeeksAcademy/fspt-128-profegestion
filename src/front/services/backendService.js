@@ -31,7 +31,7 @@ export const loginProfesor = async (user) => {
   const data = await response.json();
   if (!response.ok) {
     alert("algo salio mal en el registro");
-    return data;
+
   }
   return data;
 };
@@ -117,4 +117,20 @@ export const verifyToken = async (dispatch, navigate) => {
   }
   const user = await response.json();
   dispatch({ type: "auth_set_user", payload: user });
+};
+
+
+export const calificacionRegistro = async (user) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/calificaciones/crear`,
+    {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    },
+  );
+  console.log(response);
 };

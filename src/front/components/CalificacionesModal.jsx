@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 
-import { registroAlumno } from '../services/backendService';
 import useGlobalReducer from "../hooks/useGlobalReducer";
+import { calificacionRegistro } from "../services/backendService";
 
 
 
-export const NuevoAlumnoModal = ({
+export const CalificacionesModal = ({
   show,
   onClose,
 }) => {
@@ -15,11 +15,12 @@ export const NuevoAlumnoModal = ({
   const { store, dispatch } = useGlobalReducer()
   const [error, setError] = useState("")
   const [saving, setSaving] = useState("");
+  
   const [user, setUser] = useState({
-    nombre: "",
-    email: "",
-    password: "",
-    salon_id: "",
+    Alumno: "",
+    Materia: "",
+    Nota: "",
+    
 
   });
 
@@ -28,10 +29,10 @@ export const NuevoAlumnoModal = ({
     if (show) {
       setUser(
         {
-          nombre: "",
-          email: "",
-          password: "",
-          salon_id: "",
+          Alumno: "",
+          Materia: "",
+          Nota: "",
+         
 
         }
       );
@@ -49,15 +50,15 @@ export const NuevoAlumnoModal = ({
 
 
     setSaving(true);
-    const response = await registroAlumno(user)
+    const response = await calificacionRegistro(user)
     if (response.error) {
       setError(response.error)
       setSaving(false)
       return
     }
     dispatch({ type: "auth_set_user", payload: response });
-    navigate("/Calificaciones")  
-    //vista de calificaciones del alumno
+    navigate("/Calificaciones") 
+    //  //vista de calificaciones del alumno
     onClose()
   };
 
@@ -82,7 +83,7 @@ export const NuevoAlumnoModal = ({
         <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">Registro Alumno</h5>
+              <h5 className="modal-title">Registro de calificaciones</h5>
               <button
                 type="button"
                 className="btn-close"
@@ -99,48 +100,8 @@ export const NuevoAlumnoModal = ({
               )}
 
               <form onSubmit={handleSave}>
-                <div className="mb-4">
-                  <label className="form-label text-secondary">Nombre</label>
-                  <input
-                    type="text"
-                    className="form-control form-control-lg"
-                    placeholder="jhon doe"
-                    name="nombre"
-                    value={user.nombre}
-                    onChange={(e) => setUser({ ...user, nombre: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="form-label text-secondary">Correo electrónico</label>
-                  <input
-                    type="email"
-                    className="form-control form-control-lg"
-                    placeholder="ejemplo@correo.com"
-                    name="email"
-                    value={user.email}
-                    onChange={(e) => setUser({ ...user, email: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="form-label text-secondary">Contraseña</label>
-                  <input
-                    type="password"
-                    className="form-control form-control-lg"
-                    minLength="8"
-                    placeholder="********"
-                    name="password"
-                    value={user.password}
-                    onChange={(e) => setUser({ ...user, password: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="form-label text-secondary">Asigna el salón</label>
+                    <div className="mb-4">
+                  <label className="form-label text-secondary">Salón</label>
                   <input
                     type="text"
                     className="form-control"
@@ -150,7 +111,47 @@ export const NuevoAlumnoModal = ({
                     onChange={(e) => setUser({ ...user, salon_id: e.target.value })}
                     required
                   />
+                </div>git 
+                <div className="mb-4">
+                  <label className="form-label text-secondary">Alumno</label>
+                  <input
+                    type="text"
+                    className="form-control form-control-lg"
+                    placeholder="Alumno"
+                    name="alumno"
+                    value={user.Alumno}
+                    onChange={(e) => setUser({ ...user, Alumno: e.target.value })}
+                    required
+                  />
                 </div>
+
+                <div className="mb-4">
+                  <label className="form-label text-secondary">Materia</label>
+                  <input
+                    type="text"
+                    className="form-control form-control-lg"
+                    placeholder="materia"
+                    name="materia"
+                    value={user.Materia}
+                    onChange={(e) => setUser({ ...user, Materia: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="form-label text-secondary">Nota</label>
+                  <input
+                    type="text"
+                    className="form-control form-control-lg"
+                    placeholder="nota"
+                    name="nota"
+                    value={user.Nota}
+                    onChange={(e) => setUser({ ...user, Nota: e.target.value })}
+                    required
+                  />
+                </div>
+
+        
 
                 <div className="modal-footer">
                   <button
