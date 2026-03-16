@@ -43,7 +43,8 @@ export const LoginProfesor = () => {
 
     dispatch({ type: "auth_login", payload: { token: response.token, role: "teacher" } });
     dispatch({ type: "auth_set_user", payload: response.existing_user });
-
+    localStorage.setItem("token", response.token);
+    localStorage.setItem("profesor", JSON.stringify(response.existing_user));
 
 
     setLoading(false)
