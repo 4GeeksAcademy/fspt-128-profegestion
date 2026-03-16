@@ -112,20 +112,20 @@ def estudiante_registro():
      data= request.get_json()
     
      if not data:
-      return jsonify({"msg":"Datos inválidos"}),404
+      return jsonify({"msg":"Datos inválidos"}),414
      
      salon_id= data.get("salon_id")
      if not salon_id:
-         return jsonify({"msg":"salon_id es requerido"}),404
+         return jsonify({"msg":"salon_id es requerido"}),424
      
      
      salon= db.session.get(Salon,salon_id)
 
      if not salon:
-         return jsonify({"msg":"Salon no encontrado"}),404
+         return jsonify({"msg":"Salon no encontrado"}),434
      
      if salon.profesor_id != profesor.id:
-         return jsonify({"msg":"Este salon no es tuyo"}),404
+         return jsonify({"msg":"Este salon no es tuyo"}),444
          
      alumno_email = data.get("email")
      alumno_password = data.get("password")

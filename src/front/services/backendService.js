@@ -51,7 +51,11 @@ export const registroAlumno = async (user) => {
       },
     },
   );
-  console.log(response);
+  const data = await response.json();
+  if (!response.ok) {
+    return { error: data.msg };
+  }
+  return data;
 };
 
 export const loginAlumno = async (user) => {

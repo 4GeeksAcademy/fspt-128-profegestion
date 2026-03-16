@@ -50,13 +50,7 @@ export const NuevoAlumnoModal = ({
 
 
     setSaving(true);
-    const response = await registroAlumno(user)
-    if (response.error) {
-      setError(response.error)
-      setSaving(false)
-      return
-    }
-    dispatch({ type: "auth_set_user", payload: response });
+     await registroAlumno(user)
     //navigate("/")  //vista de calificaciones del alumno
     onClose()
   };
