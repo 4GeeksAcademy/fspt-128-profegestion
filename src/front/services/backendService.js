@@ -1,3 +1,5 @@
+import storeReducer from "../store";
+
 export const registroProfesor = async (user) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/profesor/registro`,
@@ -118,3 +120,27 @@ export const verifyToken = async (dispatch, navigate) => {
   const user = await response.json();
   dispatch({ type: "auth_set_user", payload: user });
 };
+
+
+export const crearMateria = async (nombre) => {
+  const token = localStorage.getItem("token");
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/materias/crear`,
+    {
+      method: "POST",
+      body: JSON.stringify({nombre}),     
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+    },
+  );
+  const data = await response.json();
+  console.log(data);
+
+ 
+  if (!response.ok) {
+    alert("algo salio mal en el registro");   
+  }
+  return response;
+};
+

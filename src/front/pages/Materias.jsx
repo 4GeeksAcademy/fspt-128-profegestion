@@ -1,12 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/dashboard.css";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 
 export const Materias = () => {
-  const materias = [
+  const { store, dispatch } = useGlobalReducer()
+  const [materias, setMaterias] = useState([
     { id: 1, nombre: "Matemáticas", grupos: 3 },
     { id: 2, nombre: "Lengua", grupos: 4 },
     { id: 3, nombre: "Ciencias", grupos: 2 },
-  ];
+  ]);
+
+  useEffect(() => {
+    console.log(materias);
+    if (!store.user?.salones) return;
+
+    const materiasUnicas = store.user?.salones?.reduce((acc, salon) => {
+      salon.materias.forEach(materia => {
+        const existente = acc.find((m) => m.id === materia.materia_id)
+
+        if (existente) {
+          existente.grupos += 1
+        } else {
+          acc.push({
+            id: materia.materia_id,
+            nombre: materia.materia,
+            grupos: 1
+          })
+        }
+      });
+      return acc
+    }, [])
+    setMaterias(materiasUnicas)
+
+  }, [store.user])
 
   return (
     <div className="dashboard-container">
