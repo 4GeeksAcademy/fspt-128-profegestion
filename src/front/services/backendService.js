@@ -1,3 +1,4 @@
+import { Materias } from "../pages/Materias";
 import storeReducer from "../store";
 
 export const registroProfesor = async (user) => {
@@ -54,8 +55,7 @@ export const registroAlumno = async (user) => {
 };
 
 export const loginAlumno = async (user) => {
-  const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_URL}/api/alumno/login`,
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/alumno/login`,
     {
       method: "POST",
       body: JSON.stringify(user),
@@ -74,8 +74,7 @@ export const loginAlumno = async (user) => {
 
 export const changeAlumnoPassword = async (newPassword) => {
   const token = localStorage.getItem("token");
-  const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_URL}/api/alumno/change-password`,
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/alumno/change-password`,
     {
       method: "PUT",
       headers: {
@@ -108,6 +107,7 @@ export const verifyToken = async (dispatch, navigate) => {
     `${import.meta.env.VITE_BACKEND_URL}/api/perfil/${role == "teacher" ? "profesor" : "alumno"}`,
     {
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     },
@@ -127,7 +127,7 @@ export const crearMateria = async (nombre) => {
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/materias/crear`,
     {
       method: "POST",
-      body: JSON.stringify({nombre}),     
+      body: JSON.stringify(nombre),     
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
@@ -135,12 +135,9 @@ export const crearMateria = async (nombre) => {
     },
   );
   const data = await response.json();
-  console.log(data);
-
- 
   if (!response.ok) {
     alert("algo salio mal en el registro");   
   }
-  return response;
+  return data;
 };
 

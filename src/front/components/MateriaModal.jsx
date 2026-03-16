@@ -9,27 +9,26 @@ import useGlobalReducer from "../hooks/useGlobalReducer";
 export const MateriaModal = ({
   show,
   onClose,
+  onCreate
 }) => {
 
   const navigate = useNavigate()
   const { store, dispatch } = useGlobalReducer()
   const [error, setError] = useState("")
   const [saving, setSaving] = useState("");
-  const [user, setUser] = useState({
+  const [materia, setMateria] = useState({
     nombre: "",
+    salon_id:""
 
   });
 
 
   useEffect(() => {
     if (show) {
-      setUser(
+      setMateria(
         {
           nombre: "",
-          email: "",
-          password: "",
           salon_id: "",
-
         }
       );
       setError("");
@@ -41,25 +40,23 @@ export const MateriaModal = ({
 
   const handleSave = async (e) => {
     e.preventDefault()
+    setSaving(true);
     setError("");
 
-
-
-    setSaving(true);
-    const response = await crearMateria(user)
-    if (response.error) {
-      setError(response.error)
-      setSaving(false)
-      return
+    if (!materia.trim()) {
+      setError("El nombre de la materia es obligatorio");
+      setSaving(false);
+      return;
     }
-    dispatch({ type: "auth_set_user", payload: response });
-    navigate("/materias")
-    onClose()
+      
+    
+    await onCreate(materia);
+    setSaving(false)
+    return;
   };
 
   const handleClose = () => {
     console.log("cierra");
-    dispatch({ type: "auth_logout" })
     onClose();
 
   };
@@ -78,7 +75,7 @@ export const MateriaModal = ({
         <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">Registro Alumno</h5>
+              <h5 className="modal-title">Registro Materia</h5>
               <button
                 type="button"
                 className="btn-close"
@@ -100,10 +97,22 @@ export const MateriaModal = ({
                   <input
                     type="text"
                     className="form-control form-control-lg"
-                    placeholder="jhon doe"
+                    placeholder="asignatura"
                     name="nombre"
-                    value={user.nombre}
-                    onChange={(e) => setUser({ ...user, nombre: e.target.value })}
+                    value={materia.nombre}
+                    onChange={(e) => setMateria(e.target.value )}
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="form-label text-secondary">numero del salon</label>
+                  <input
+                    type="text"
+                    className="form-control form-control-lg"
+                    placeholder="salon nº"
+                    name="salon"
+                    value={materia.salon_id}
+                    onChange={(e) => setMateria(e.target.value )}
                     required
                   />
                 </div>

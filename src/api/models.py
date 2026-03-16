@@ -180,7 +180,7 @@ class Materia(db.Model):
         return {
             "id": self.id,
             "nombre": self.nombre
-            }
+        }
 
 
 class SalonMateria(db.Model):
