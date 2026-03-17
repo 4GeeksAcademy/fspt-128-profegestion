@@ -49,8 +49,8 @@ export const NuevoAlumnoModal = ({
     setSaving(true);
     setError("");
 
-    
-     await registroAlumno(user)
+
+    await registroAlumno(user)
     //navigate("/")  //vista de calificaciones del alumno
     onClose()
   };
@@ -66,14 +66,14 @@ export const NuevoAlumnoModal = ({
   return (
 
     <>
-      <div className="modal-backdrop fade show "></div>
+      <div className="modal-backdrop fade show " onClick={handleClose}></div>
 
       <div
         className={`modal ${show ? "show d-block" : ""}`}
         tabIndex="-1"
         onClick={handleClose}
       >
-        <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+        <div className="" onClick={(e) => e.stopPropagation()}>
           <div className=" modal modal-content ">
             <div className="modal-header">
               <h5 className="modal-title">Registro Alumno</h5>

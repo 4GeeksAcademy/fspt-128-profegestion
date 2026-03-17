@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
-import { crearMateria } from '../services/backendService';
+import { crearMateria, verifyToken } from '../services/backendService';
 import useGlobalReducer from "../hooks/useGlobalReducer";
 
 
@@ -18,8 +18,7 @@ export const MateriaModal = ({
   const [saving, setSaving] = useState("");
   const [materia, setMateria] = useState({
     nombre: "",
-    salon_id:""
-
+    salon_id: ""
   });
 
 
@@ -40,18 +39,21 @@ export const MateriaModal = ({
 
   const handleSave = async (e) => {
     e.preventDefault()
+
     setSaving(true);
     setError("");
 
-    if (!materia.trim()) {
-      setError("El nombre de la materia es obligatorio");
+    if (!materia.nombre.trim() || !materia.salon_id.trim()) {
+      setError("Los campos son obligatorios");
       setSaving(false);
       return;
     }
-      
-    
+
+
     await onCreate(materia);
     setSaving(false)
+    verifyToken(dispatch)
+    onClose()
     return;
   };
 
@@ -100,7 +102,7 @@ export const MateriaModal = ({
                     placeholder="asignatura"
                     name="nombre"
                     value={materia.nombre}
-                    onChange={(e) => setMateria(e.target.value )}
+                    onChange={(e) => setMateria({ ...materia, [e.target.name]: e.target.value })}
                     required
                   />
                 </div>
@@ -110,9 +112,9 @@ export const MateriaModal = ({
                     type="text"
                     className="form-control form-control-lg"
                     placeholder="salon nº"
-                    name="salon"
+                    name="salon_id"
                     value={materia.salon_id}
-                    onChange={(e) => setMateria(e.target.value )}
+                    onChange={(e) => setMateria({ ...materia, [e.target.name]: e.target.value })}
                     required
                   />
                 </div>
