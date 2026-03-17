@@ -304,14 +304,42 @@ def eliminar_estudiante(alumno_id):
     return jsonify({"msg": "El alumno ha sido borrado exitosamente"}), 200
 
 
-@api.route('perfil/alumno', methods=['GET'])
+@api.route('/perfil/alumno', methods=['GET'])
 @jwt_required()
 def perfil_estudiante():
-    existing_user_id = get_jwt_identity()
-    existing_user = db.session.get(Alumno, int(existing_user_id))
-    if not existing_user:
-        return jsonify({"msg": "Usuario no encontrado"}), 400
-    return jsonify(existing_user.serialize()), 200
+    alumno_id = get_jwt_identity()
+
+    alumno = Alumno.query.filter_by(id=alumno_id).first()
+
+    if not alumno:
+        return jsonify({"msg": "Alumno no encontrado"}), 404
+
+  
+    salon = Salon.query.filter_by(id=alumno.salon_id).first()
+
+   
+    profesor = Profesor.query.filter_by(id=salon.profesor_id).first() if salon else None
+
+    
+    materias_salon = SalonMateria.query.filter_by(salon_id=salon.id).all()
+    materias = [sm.materia.serialize() for sm in materias_salon]
+
+    calificaciones = Calificacion.query.filter_by(alumno_id=alumno.id).all()
+
+    return jsonify({
+        **alumno.serialize(),
+
+        "salon": {
+            **salon.serialize(),
+            "profesor": profesor.serialize() if profesor else None,
+            "materias": materias
+        } if salon else None,
+
+        "calificaciones": [c.serialize() for c in calificaciones]
+    }), 200
+
+
+
 
 
 # CURD DE CALIFICACIONES
