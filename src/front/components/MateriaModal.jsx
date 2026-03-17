@@ -75,7 +75,7 @@ export const MateriaModal = ({
         onClick={handleClose}
       >
         <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
-          <div className="modal-content">
+          <div className=" modal modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Registro Materia</h5>
               <button
