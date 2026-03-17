@@ -46,11 +46,10 @@ export const NuevoAlumnoModal = ({
 
   const handleSave = async (e) => {
     e.preventDefault()
+    setSaving(true);
     setError("");
 
-
-
-    setSaving(true);
+    
      await registroAlumno(user)
     //navigate("/")  //vista de calificaciones del alumno
     onClose()
@@ -75,7 +74,7 @@ export const NuevoAlumnoModal = ({
         onClick={handleClose}
       >
         <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
-          <div className="modal-content">
+          <div className="modal-content modal">
             <div className="modal-header">
               <h5 className="modal-title">Registro Alumno</h5>
               <button
@@ -171,7 +170,6 @@ export const NuevoAlumnoModal = ({
         </div>
       </div>
     </>
-
 
   )
 
