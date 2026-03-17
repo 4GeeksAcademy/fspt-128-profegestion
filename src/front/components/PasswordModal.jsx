@@ -44,7 +44,7 @@ export const PasswordModal = ({
         dispatch({ type: "auth_set_user", payload: response.user });
         setSaving(false)
         onClose()
-        navigate("/alumno")  //vista de calificaciones del alumno
+        navigate("/login-alumno")  //vista de calificaciones del alumno
     };
 
     const handleClose = () => {
