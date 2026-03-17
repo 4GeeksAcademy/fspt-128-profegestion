@@ -56,15 +56,15 @@ export const PasswordModal = ({
 
     return (
         <>
-            <div className="modal-backdrop fade show"></div>
+            <div className="modal-backdrop fade show "></div>
             <div
                 className={`modal ${show ? "show d-block" : ""}`}
                 tabIndex="-1"
                 role="dialog"
-                style={{ display: "block" }}
+                style={{ display: "block" ,backgroundColor: "#6200e8" }}
                 aria-modal="true"
             >
-                <div className="modal-dialog-centered">
+                <div className="modal-dialog-centered ">
                     <div className="modal-content  modal ">
                         <div className="modal-header ">
                             <h5 className="modal-title">
