@@ -1,3 +1,6 @@
+import { Materias } from "../pages/Materias";
+import storeReducer from "../store";
+
 export const registroProfesor = async (user) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/profesor/registro`,
@@ -48,7 +51,11 @@ export const registroAlumno = async (user) => {
       },
     },
   );
-  console.log(response);
+  const data = await response.json();
+  if (!response.ok) {
+    return { error: data.msg };
+  }
+  return data;
 };
 
 export const loginAlumno = async (user) => {
@@ -106,6 +113,7 @@ export const verifyToken = async (dispatch, navigate) => {
     `${import.meta.env.VITE_BACKEND_URL}/api/perfil/${role == "teacher" ? "profesor" : "alumno"}`,
     {
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     },
@@ -117,4 +125,26 @@ export const verifyToken = async (dispatch, navigate) => {
   }
   const user = await response.json();
   dispatch({ type: "auth_set_user", payload: user });
+};
+
+export const crearMateria = async (materia) => {
+  console.log(materia);
+
+  const token = localStorage.getItem("token");
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/materias/crear`,
+    {
+      method: "POST",
+      body: JSON.stringify(materia),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    alert("algo salio mal en el registro");
+  }
+  return data;
 };

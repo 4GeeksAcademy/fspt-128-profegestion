@@ -44,7 +44,7 @@ export const PasswordModal = ({
         dispatch({ type: "auth_set_user", payload: response.user });
         setSaving(false)
         onClose()
-        navigate("/alumno")  //vista de calificaciones del alumno
+        navigate("/login-alumno")  //vista de calificaciones del alumno
     };
 
     const handleClose = () => {
@@ -56,16 +56,17 @@ export const PasswordModal = ({
 
     return (
         <>
+            <div className="modal-backdrop fade show "></div>
             <div
                 className={`modal ${show ? "show d-block" : ""}`}
                 tabIndex="-1"
                 role="dialog"
-                style={{ display: "block" }}
+                style={{ display: "block" ,backgroundColor: "#6200e8" }}
                 aria-modal="true"
             >
-                <div className="modal-dialog-centered">
-                    <div className="modal-content border-0 shadow rounded-4">
-                        <div className="modal-header border-0 pb-0">
+                <div className="modal-dialog-centered ">
+                    <div className="modal-content  modal ">
+                        <div className="modal-header ">
                             <h5 className="modal-title">
                                 Bienvenido
                             </h5>
@@ -79,7 +80,7 @@ export const PasswordModal = ({
                             />
 
                         </div>
-                        <div className="modal-body pt-2">
+                        <div className="modal-body ">
                             <p>al ser tu primera entrada cambia la password</p>
                         </div>
 
@@ -88,48 +89,50 @@ export const PasswordModal = ({
                                 {error}
                             </div>
                         )}
+                        <form>
+                            <label className="form-label">Password</label>
+                            <div className="input-group">
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    placeholder="********"
+                                    minLength="8"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}//handlechain y guardar en usestate
+                                    disabled={saving}
+                                />
+                            </div>
 
-                        <label className="form-label">Password</label>
-                        <div className="input-group">
-                            <input
-                                type="password"
-                                className="form-control"
-                                placeholder="********"
-                                minLength="8"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}//handlechain y guardar en usestate
-                                disabled={saving}
-                            />
-                        </div>
+                            <div className="modal-footer border-0 pt-0">
+
+                                <button
+                                    type="button"
+                                    className="btn btn -success"
+                                    onClick={handleSave}
+                                    disable={saving}
+                                >
+                                    {saving ? (
+                                        <span className="d-inline-flex align-items-center gap-2"
+                                            role="status">
+                                            <span className="spinner-border text-light"
+                                                role="status"
+                                                aria-hidden="true"
+                                            ></span>ya queda poco
+
+                                        </span>
+                                    ) : (
+                                        "entrar"
+                                    )}
+                                </button>
+
+                            </div>
+                        </form>
                     </div>
-                    <div className="modal-footer border-0 pt-0">
-
-                        <button
-                            type="button"
-                            className="btn btn -success"
-                            onClick={handleSave}
-                            disable={saving}
-                        >
-                            {saving ? (
-                                <span className="d-inline-flex align-items-center gap-2"
-                                    role="status">
-                                    <span className="spinner-border text-light"
-                                        role="status"
-                                        aria-hidden="true"
-                                    ></span>ya queda poco
-
-                                </span>
-                            ) : (
-                                "entrar"
-                            )}
-                        </button>
-
-                    </div>
-
                 </div>
-
-
             </div>
+
+
+        
         </>
     )
 

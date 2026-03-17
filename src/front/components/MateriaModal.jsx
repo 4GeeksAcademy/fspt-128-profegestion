@@ -1,13 +1,12 @@
 
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
-
-import { registroAlumno } from '../services/backendService';
+import { crearMateria, verifyToken } from '../services/backendService';
 import useGlobalReducer from "../hooks/useGlobalReducer";
 
 
 
-export const NuevoAlumnoModal = ({
+export const MateriaModal = ({
   show,
   onClose,
   onCreate
@@ -17,24 +16,18 @@ export const NuevoAlumnoModal = ({
   const { store, dispatch } = useGlobalReducer()
   const [error, setError] = useState("")
   const [saving, setSaving] = useState("");
-  const [user, setUser] = useState({
+  const [materia, setMateria] = useState({
     nombre: "",
-    email: "",
-    password: "",
-    salon_id: "",
-
+    salon_id: ""
   });
 
 
   useEffect(() => {
     if (show) {
-      setUser(
+      setMateria(
         {
           nombre: "",
-          email: "",
-          password: "",
           salon_id: "",
-
         }
       );
       setError("");
@@ -46,18 +39,26 @@ export const NuevoAlumnoModal = ({
 
   const handleSave = async (e) => {
     e.preventDefault()
+
     setSaving(true);
     setError("");
 
+    if (!materia.nombre.trim() || !materia.salon_id.trim()) {
+      setError("Los campos son obligatorios");
+      setSaving(false);
+      return;
+    }
 
-    await registroAlumno(user)
-    //navigate("/")  //vista de calificaciones del alumno
+
+    await onCreate(materia);
+    setSaving(false)
+    verifyToken(dispatch)
     onClose()
+    return;
   };
 
   const handleClose = () => {
     console.log("cierra");
-    dispatch({ type: "auth_logout" })
     onClose();
 
   };
@@ -66,17 +67,17 @@ export const NuevoAlumnoModal = ({
   return (
 
     <>
-      <div className="modal-backdrop fade show " onClick={handleClose}></div>
+      <div className="modal-backdrop fade show"></div>
 
       <div
         className={`modal ${show ? "show d-block" : ""}`}
         tabIndex="-1"
         onClick={handleClose}
       >
-        <div className="" onClick={(e) => e.stopPropagation()}>
-          <div className=" modal modal-content ">
+        <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+          <div className=" modal modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">Registro Alumno</h5>
+              <h5 className="modal-title">Registro Materia</h5>
               <button
                 type="button"
                 className="btn-close"
@@ -98,50 +99,22 @@ export const NuevoAlumnoModal = ({
                   <input
                     type="text"
                     className="form-control form-control-lg"
-                    placeholder="jhon doe"
+                    placeholder="asignatura"
                     name="nombre"
-                    value={user.nombre}
-                    onChange={(e) => setUser({ ...user, nombre: e.target.value })}
+                    value={materia.nombre}
+                    onChange={(e) => setMateria({ ...materia, [e.target.name]: e.target.value })}
                     required
                   />
                 </div>
-
                 <div className="mb-4">
-                  <label className="form-label text-secondary">Correo electrónico</label>
-                  <input
-                    type="email"
-                    className="form-control form-control-lg"
-                    placeholder="ejemplo@correo.com"
-                    name="email"
-                    value={user.email}
-                    onChange={(e) => setUser({ ...user, email: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="form-label text-secondary">Contraseña</label>
-                  <input
-                    type="password"
-                    className="form-control form-control-lg"
-                    minLength="8"
-                    placeholder="********"
-                    name="password"
-                    value={user.password}
-                    onChange={(e) => setUser({ ...user, password: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="form-label text-secondary">Asigna el salón</label>
+                  <label className="form-label text-secondary">numero del salon</label>
                   <input
                     type="text"
-                    className="form-control"
-                    placeholder="Nº salon"
+                    className="form-control form-control-lg"
+                    placeholder="salon nº"
                     name="salon_id"
-                    value={user.salon_id}
-                    onChange={(e) => setUser({ ...user, salon_id: e.target.value })}
+                    value={materia.salon_id}
+                    onChange={(e) => setMateria({ ...materia, [e.target.name]: e.target.value })}
                     required
                   />
                 </div>
@@ -170,6 +143,7 @@ export const NuevoAlumnoModal = ({
         </div>
       </div>
     </>
+
 
   )
 
