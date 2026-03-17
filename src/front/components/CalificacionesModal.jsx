@@ -17,6 +17,7 @@ export const CalificacionesModal = ({
   const [saving, setSaving] = useState("");
   
   const [user, setUser] = useState({
+    Salon:"",
     Alumno: "",
     Materia: "",
     Nota: "",
@@ -41,13 +42,18 @@ export const CalificacionesModal = ({
     }
   }, [show]);
 
+
+  const handleInputChange = (e)=>{
+    setUser({
+      ...user,[e.target.name]:e.target.value
+    })
+  }
+
   if (!show) return null;
 
   const handleSave = async (e) => {
     e.preventDefault()
     setError("");
-
-
 
     setSaving(true);
     const response = await calificacionRegistro(user)
@@ -58,7 +64,7 @@ export const CalificacionesModal = ({
     }
     dispatch({ type: "auth_set_user", payload: response });
     navigate("/Calificaciones") 
-    //  //vista de calificaciones del alumno
+    //vista de calificaciones del alumno
     onClose()
   };
 
@@ -107,11 +113,11 @@ export const CalificacionesModal = ({
                     className="form-control"
                     placeholder="delta"
                     name="salon_id"
-                    value={user.salon_id}
-                    onChange={(e) => setUser({ ...user, salon_id: e.target.value })}
+                    value={user.Salon}
+                    onChange={handleInputChange}
                     required
                   />
-                </div>git 
+                </div>
                 <div className="mb-4">
                   <label className="form-label text-secondary">Alumno</label>
                   <input
@@ -120,7 +126,7 @@ export const CalificacionesModal = ({
                     placeholder="Alumno"
                     name="alumno"
                     value={user.Alumno}
-                    onChange={(e) => setUser({ ...user, Alumno: e.target.value })}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -133,7 +139,7 @@ export const CalificacionesModal = ({
                     placeholder="materia"
                     name="materia"
                     value={user.Materia}
-                    onChange={(e) => setUser({ ...user, Materia: e.target.value })}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
@@ -146,7 +152,7 @@ export const CalificacionesModal = ({
                     placeholder="nota"
                     name="nota"
                     value={user.Nota}
-                    onChange={(e) => setUser({ ...user, Nota: e.target.value })}
+                    onChange={handleInputChange}
                     required
                   />
                 </div>
