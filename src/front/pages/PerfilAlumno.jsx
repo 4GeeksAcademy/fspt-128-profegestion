@@ -26,8 +26,8 @@ export default function PerfilAlumno() {
 
   return (
     <div className="dashboard-container">
-      <div className="text-center mb-4"> 
-        <br/><br/>
+      <div className="text-center mb-4">
+        <br /><br /><br />
         <div
           style={{
             width: "90px",
@@ -40,7 +40,8 @@ export default function PerfilAlumno() {
             justifyContent: "center",
             fontSize: "2.5rem",
             fontWeight: "bold",
-            margin: "0 auto"
+            margin: "0 auto",
+            borderTop: "50%"
           }}
         >
           {inicial}
@@ -79,7 +80,6 @@ export default function PerfilAlumno() {
         <p><strong style={{ color: "#6200E8" }}>Nombre:</strong> {alumno.nombre}</p>
         <p><strong style={{ color: "#6200E8" }}>Email:</strong> {alumno.email}</p>
         <p><strong style={{ color: "#6200E8" }}>Salón asignado:</strong> {alumno.salon?.nombre}</p>
-        
       </div>
 
       <div className="card mt-4 p-4">
@@ -97,29 +97,30 @@ export default function PerfilAlumno() {
       <div className="card mt-4 p-4">
         <h3 className="mb-3" style={{ color: "#6200E8" }}>Calificaciones por materia</h3>
 
-        {alumno.calificaciones?.map((c, i) => (
-          <div
-            key={i}
-            className="p-3 mb-3 rounded shadow-sm"
-            style={{ backgroundColor: "#F8F5FF" }}
-          >
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <strong style={{ color: "#6200E8" }}>{c.materia}</strong>
-                <p className="text-muted m-0">{getBadge(c.nota)}</p>
+        {alumno.calificaciones?.map((c, i) => {
+        
+          const materia = alumno.salon?.materias?.find(
+            m => m.id === c.salon_materia_id
+          );
+
+          return (
+            <div key={i} className="p-3 mb-3 rounded shadow-sm" style={{ backgroundColor: "#F8F5FF" }}>
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong style={{ color: "#6200E8" }}>
+                    {materia?.nombre || "Materia no encontrada"}
+                  </strong>
+                  <p className="text-muted m-0">{getBadge(c.nota)}</p>
+                </div>
+
+                <span className="fw-bold" style={{ color: "#6200E8", fontSize: "1.6rem" }}>
+                  {c.nota}
+                </span>
               </div>
-
-              <span
-                className="fw-bold"
-                style={{ color: "#6200E8", fontSize: "1.6rem" }}
-              >
-                {c.nota}
-              </span>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
-
     </div>
   );
 }
