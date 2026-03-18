@@ -17,7 +17,6 @@ export default function StudentRow({ student }) {
     setLoading(false);
     setSent(true);
 
-    // 👇 REDIRECCIÓN
     navigate("/dashboard/alumnos");
   };
 
