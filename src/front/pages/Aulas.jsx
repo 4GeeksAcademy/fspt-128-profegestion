@@ -72,7 +72,7 @@ export const Aulas = () => {
         Crear nueva aula
       </button>
 
-      {/* MODAL CORRECTO */}
+      
       <ModalCrearAula
         show={showModal}
         onClose={() => setShowModal(false)}

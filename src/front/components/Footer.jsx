@@ -4,7 +4,7 @@ export const Footer = () => {
       <div className="container py-5">
         <div className="row gy-4">
 
-          {/* Descripción */}
+         
           <div className="col-12 col-md-6 col-lg-4">
             <h3 className="fw-bold">PortalEducativoVip</h3>
             <p className="mt-2">
@@ -12,7 +12,7 @@ export const Footer = () => {
             </p>
           </div>
 
-          {/* Producto */}
+         
           <div className="col-6 col-md-3 col-lg-2">
             <h5 className="fw-bold">Producto</h5>
             <ul className="list-unstyled mt-3">
@@ -23,7 +23,7 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Recursos */}
+         
           <div className="col-6 col-md-3 col-lg-2">
             <h5 className="fw-bold">Recursos</h5>
             <ul className="list-unstyled mt-3">
@@ -34,7 +34,7 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Legal */}
+      
           <div className="col-6 col-md-3 col-lg-2">
             <h5 className="fw-bold">Legal</h5>
             <ul className="list-unstyled mt-3">

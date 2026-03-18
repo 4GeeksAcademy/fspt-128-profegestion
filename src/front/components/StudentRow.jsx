@@ -8,7 +8,7 @@ export default function StudentRow({ student }) {
   const handleSend = async () => {
     setLoading(true);
 
-    // Simulación de llamada a API externa
+    
     await new Promise(resolve => setTimeout(resolve, 1200));
 
     console.log("Calificaciones enviadas a la API externa para:", student.name);
@@ -16,8 +16,7 @@ export default function StudentRow({ student }) {
     setLoading(false);
     setSent(true);
 
-    // Aquí en el futuro:
-    // fetch("https://api-externa.com/enviar", { method: "POST", body: JSON.stringify(student) })
+    
   };
 
   return (

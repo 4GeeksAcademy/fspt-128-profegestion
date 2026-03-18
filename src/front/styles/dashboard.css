@@ -1,11 +1,9 @@
-/* CONTENEDOR GENERAL */
 .dashboard-container {
   padding: 40px;
   max-width: 1200px;
   margin: auto;
 }
 
-/* TITULOS */
 .dashboard-title {
   font-size: 28px;
   font-weight: bold;
@@ -17,7 +15,6 @@
   margin-bottom: 25px;
 }
 
-/* BOTONES */
 .dashboard-actions {
   display: flex;
   gap: 15px;
@@ -41,7 +38,6 @@
   cursor: pointer;
 }
 
-/* TARJETAS */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -65,7 +61,6 @@
   margin: 0;
 }
 
-/* BOTÓN FINAL */
 .dashboard-footer-action {
   margin-top: 40px;
 }
@@ -119,7 +114,7 @@
 .students-table tr:hover {
   background: #f9fafb;
 }
-/* Animación suave en tarjetas */
+
 .card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -129,7 +124,7 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* Botones */
+
 .btn-primary,
 .btn-secondary {
   transition: background-color 0.2s ease, transform 0.2s ease;
@@ -140,12 +135,10 @@
   transform: translateY(-2px);
 }
 
-/* Filas de tabla */
 .students-table tr {
   transition: background-color 0.2s ease;
 }
 
-/* Sidebar links */
 .sidebar-section a {
   transition: color 0.2s ease, padding-left 0.2s ease;
 }
