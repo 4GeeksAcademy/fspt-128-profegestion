@@ -36,10 +36,10 @@ export const ModalCrearAula = ({ show, onClose, onCreate }) => {
 
   return (
     <>
-      {/* Backdrop */}
+     
       <div className="modal-backdrop fade show"></div>
 
-      {/* Modal */}
+      
       <div
         className={`modal fade ${show ? "show d-block" : ""}`}
         tabIndex="-1"

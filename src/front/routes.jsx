@@ -18,6 +18,7 @@ import { RegistroProfesor } from "./pages/profesor/RegistroProfesor";
 import { LoginProfesor } from "./pages/profesor/LoginProfesor";
 import { LoginAlumno } from "./pages/alumno/LoginAlumno";
 import { DashboardLayout } from "./pages/DashboardLayout";
+import PerfilAlumno from "./pages/PerfilAlumno";
 
 
 export const router = createBrowserRouter(
@@ -39,6 +40,7 @@ export const router = createBrowserRouter(
                                 <Route path="/registro-profesor" element={<RegistroProfesor />} />
                                 <Route path="/login-profesor" element={<LoginProfesor />} />
                                 <Route path="/login-alumno" element={<LoginAlumno />} />
+                                <Route path="/perfil-alumno" element={<PerfilAlumno />} />
                         </Route>
                         <Route path="dashboard" element={<DashboardLayout />}>
                                 <Route index element={<TeacherDashboard />} />
