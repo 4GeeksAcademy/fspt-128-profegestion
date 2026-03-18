@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles/dashboard.css";
 import { NuevoAlumnoModal } from "../components/NuevoAlumnoModal";
 
+
 export const Alumnos = () => {
 
   const [showModal, setShowModal] = useState(false)

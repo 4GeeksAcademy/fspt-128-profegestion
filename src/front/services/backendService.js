@@ -58,6 +58,7 @@ export const registroAlumno = async (user) => {
   return data;
 };
 
+
 export const loginAlumno = async (user) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/alumno/login`,
