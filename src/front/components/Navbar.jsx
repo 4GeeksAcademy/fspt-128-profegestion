@@ -33,7 +33,7 @@ const Navbar = () => {
   const irAPortal = (e) => {
     e.preventDefault();
 
-    // 🟣 Si está logeado → logout + home
+    
     if (usuario) {
       localStorage.removeItem("token");
       localStorage.removeItem("profesor");
@@ -44,7 +44,6 @@ const Navbar = () => {
       return;
     }
 
-    // 🟢 Si está en registro, login alumno o panel alumnos → ir a home
     if (
       location.pathname === "/registro-profesor" ||
       location.pathname === "/login-alumno" ||
@@ -54,7 +53,7 @@ const Navbar = () => {
       return;
     }
 
-    // 🔴 En cualquier otro caso → no hace nada
+   
   };
 
   return (
