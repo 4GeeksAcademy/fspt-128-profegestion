@@ -20,6 +20,12 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+from datetime import timedelta
+
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=12) 
+app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+jwt = JWTManager(app)
+
 jwt = JWTManager(app) 
 
 # Flask mail config

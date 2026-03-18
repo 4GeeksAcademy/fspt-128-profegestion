@@ -85,7 +85,6 @@ export default function PerfilAlumno() {
       <div className="card mt-4 p-4">
         <h3 className="mb-3" style={{ color: "#6200E8" }}>Aula</h3>
         <p><strong style={{ color: "#6200E8" }}>Grupo actual:</strong> {alumno.salon?.nombre}</p>
-        <p><strong style={{ color: "#6200E8" }}>Materias activas:</strong> {alumno.materias?.length || 0}</p>
       </div>
 
       <div className="card mt-4 p-4">
