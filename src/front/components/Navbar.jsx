@@ -6,7 +6,7 @@ const Navbar = () => {
   const usuario = store.user;
 
   useEffect(() => {
-    // Para mantener sesión al recargar
+    
     const prof = localStorage.getItem("profesor");
     const alum = localStorage.getItem("alumno");
 
