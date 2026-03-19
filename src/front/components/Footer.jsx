@@ -2,18 +2,18 @@ export const Footer = () => {
   return (
     <footer style={{ backgroundColor: "#6200E8", color: "white", fontFamily: "Fira Sans" }}>
       <div className="container py-5">
-        <div className="row">
+        <div className="row gy-4">
 
-          {/* Marca */}
-          <div className="col-md-4 mb-4">
+         
+          <div className="col-12 col-md-6 col-lg-4">
             <h3 className="fw-bold">PortalEducativoVip</h3>
             <p className="mt-2">
               Gestiona con eficiencia tu tiempo, tus aulas y el rendimiento de tus alumnos en una plataforma sencilla y luminosa.
             </p>
           </div>
 
-          {/* Producto */}
-          <div className="col-md-2 mb-4">
+         
+          <div className="col-6 col-md-3 col-lg-2">
             <h5 className="fw-bold">Producto</h5>
             <ul className="list-unstyled mt-3">
               <li><a href="#" className="footer-link">Características</a></li>
@@ -23,8 +23,8 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Recursos */}
-          <div className="col-md-2 mb-4">
+         
+          <div className="col-6 col-md-3 col-lg-2">
             <h5 className="fw-bold">Recursos</h5>
             <ul className="list-unstyled mt-3">
               <li><a href="#" className="footer-link">Centro de ayuda</a></li>
@@ -34,8 +34,8 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Legal */}
-          <div className="col-md-2 mb-4">
+      
+          <div className="col-6 col-md-3 col-lg-2">
             <h5 className="fw-bold">Legal</h5>
             <ul className="list-unstyled mt-3">
               <li><a href="#" className="footer-link">Términos de servicio</a></li>
@@ -47,14 +47,13 @@ export const Footer = () => {
 
         </div>
 
-        <hr className="border-light opacity-25" />
+        <hr className="border-light opacity-25 mt-4" />
 
         <div className="text-center py-3">
           © 2026 PortalEducativoVip. Todos los derechos reservados.
         </div>
       </div>
 
-      {/* Estilos del footer */}
       <style>{`
         .footer-link {
           color: #ffffffcc;

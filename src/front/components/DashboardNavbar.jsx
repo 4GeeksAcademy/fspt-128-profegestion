@@ -22,14 +22,14 @@ const DashboardNavbar = () => {
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav ms-auto">
 
-            {/* Nombre del profesor */}
+            
             <li className="nav-item d-flex align-items-center me-3">
               <span className="fw-bold text-primary">
                 {store.profesor?.nombre || "Profesor"}
               </span>
             </li>
 
-            {/* Botón cerrar sesión */}
+           
             <li className="nav-item">
               <button
                 className="btn btn-outline-danger"

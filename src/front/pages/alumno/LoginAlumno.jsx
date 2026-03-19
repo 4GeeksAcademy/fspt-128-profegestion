@@ -6,7 +6,7 @@ import { PasswordModal } from '../../components/PasswordModal';
 
 
 export const LoginAlumno = () => {
-    const {store, dispatch} = useGlobalReducer()
+    const { store, dispatch } = useGlobalReducer()
     const navigate = useNavigate()
     const [passwordModal, setpasswordModal] = useState(false)
     const [loading, setLoading] = useState(false);
@@ -28,33 +28,49 @@ export const LoginAlumno = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+
         if (!user.email.trim() || !user.password.trim()) {
             setError("email y password son requeridos");
             return;
         }
 
-        setLoading(true)
-        const response = await loginAlumno(user)
-        console.log(response);
+        setLoading(true);
+
+        const response = await loginAlumno(user);
 
         if (response.msg && !response.token) {
-            setError(response.msg)
-            setLoading(false)
-            return
+            setError(response.msg);
+            setLoading(false);
+            return;
         }
 
+        localStorage.setItem("token", response.token);
         dispatch({ type: "auth_login", payload: { token: response.token } });
-        dispatch({ type: "auth_set_user", payload: response.token });
 
         if (response.must_change_password) {
-            setpasswordModal(true)
-            setLoading(false)
-            return
+            setpasswordModal(true);
+            setLoading(false);
+            return;
         }
 
-        setLoading(false)
-        navigate("/alumno")
-    }
+        const perfil = await fetch(
+            "https://urban-telegram-wrjpp4rx7qp42gg7g-3001.app.github.dev/api/perfil/alumno",
+            {
+                headers: {
+                    Authorization: "Bearer " + response.token,
+                },
+            }
+        ).then((r) => r.json());
+
+        dispatch({ type: "auth_set_user", payload: perfil });
+
+        localStorage.setItem("alumno", JSON.stringify(perfil));
+
+        navigate("/perfil-alumno");
+
+    };
+
+
 
     useEffect(() => {
         console.log("estos son los datos de profesor---> ", user);

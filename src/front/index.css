@@ -9,7 +9,6 @@ html {
   scroll-behavior: smooth;
 }
 
-/* BODY */
 .body {
   background: linear-gradient(135deg, #6200e8, #4b00b4);
   height: 100vh;
@@ -44,7 +43,6 @@ html {
   background-attachment: fixed;
 }
 
-/* CARACTERISTICAS */
 .feature-box {
   border-radius: 12px;
   background: white;
@@ -58,12 +56,10 @@ html {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* COMENZAR */
 .cta-section {
   background: linear-gradient(135deg, #6200e8, #6200e8);
 }
 
-/* Buttons */
 .btn-animate {
   transition:
     transform 0.2s ease,
@@ -75,7 +71,6 @@ html {
   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
 }
 
-/* Animaciones */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -120,10 +115,6 @@ html {
 .animate-zoom {
   animation: zoomIn 0.8s ease forwards;
 }
-
-/* ========================= */
-/*   MODAL — ESTILO FINAL    */
-/* ========================= */
 
 .modal-overlay {
   position: fixed !important;

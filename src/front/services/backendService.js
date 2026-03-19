@@ -58,6 +58,7 @@ export const registroAlumno = async (user) => {
   return data;
 };
 
+
 export const loginAlumno = async (user) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/alumno/login`,
@@ -235,4 +236,24 @@ export const salonesLista = async () => {
   
   const data = await response.json();
   return { data };  
+};
+export const eliminarAlumno = async (alumno_id) => {
+  const token = localStorage.getItem("token");
+  console.log(alumno_id);
+  
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/alumno/eliminar/${alumno_id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  if (!response.ok) {
+    alert("no se borro");
+  }
+  
+  return response;
 };
