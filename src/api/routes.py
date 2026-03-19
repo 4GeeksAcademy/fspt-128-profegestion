@@ -1,6 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+import smtplib
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Profesor, Alumno, Salon, Calificacion, Materia, SalonMateria
 from api.utils import generate_sitemap, APIException
@@ -8,8 +9,7 @@ from flask_cors import CORS
 from flask_mail import Message
 from flask import current_app
 from sqlalchemy import select
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, get_jwt
-from flask_bcrypt import generate_password_hash
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
@@ -105,54 +105,90 @@ def estudiante_registro():
     profesor = db.session.get(Profesor, int(existing_user_id))
 
     if not profesor:
-        return jsonify({'msg': 'Usuario no autorizado'}), 400
+        return jsonify({'msg': 'Usuario no autorizado'}), 401
 
     data = request.get_json()
 
     if not data:
-        return jsonify({"msg": "Datos inválidos"}), 414
+        return jsonify({"msg": "Datos inválidos"}), 400
 
     salon_id = data.get("salon_id")
     if not salon_id:
-        return jsonify({"msg": "salon_id es requerido"}), 424
+        return jsonify({"msg": "salon_id es requerido"}), 400
 
     salon = db.session.get(Salon, salon_id)
-
     if not salon:
-        return jsonify({"msg": "Salon no encontrado"}), 434
+        return jsonify({"msg": "Salón no encontrado"}), 404
 
     if salon.profesor_id != profesor.id:
-        return jsonify({"msg": "Este salon no es tuyo"}), 444
+        return jsonify({"msg": "Este salón no es tuyo"}), 403
 
+    nombre = data.get("nombre")
     alumno_email = data.get("email")
     alumno_password = data.get("password")
+
+    if not nombre or not alumno_email or not alumno_password:
+        return jsonify({"msg": "nombre, email y password son requeridos"}), 400
+
+    existing_alumno = db.session.execute(
+        select(Alumno).where(Alumno.email == alumno_email)
+    ).scalar_one_or_none()
+
+    if existing_alumno:
+        return jsonify({"msg": "Ya existe un alumno con ese email"}), 409
+
     new_user = Alumno(
-        nombre=data.get("nombre"),
+        nombre=nombre,
         email=alumno_email,
-        #  ,
         salon_id=salon_id
     )
-    new_user.set_password(data.get("password"))
+    new_user.set_password(alumno_password)
 
-    db.session.add(new_user)
-    db.session.commit()
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.exception("Error guardando alumno")
+        return jsonify({"msg": "No se pudo registrar el alumno"}), 500
 
-    # enviar mail con las credenciales
-    msg = Message(
-        subject="actualizacion de datos de acceso a la plataforma",
-        recipients=[alumno_email],
-        body=f"""
-                Tus datos de acceso han sido enviados por tu profesor.
+    email_enviado = False
 
-                Email: {alumno_email}
-                Password: {alumno_password}
+    try:
+        msg = Message(
+            subject="Actualización de datos de acceso a la plataforma",
+            recipients=[alumno_email],
+            body=f"""
+    Tus datos de acceso han sido enviados por tu profesor.
 
-                Puedes iniciar sesión en la plataforma.
+    Email: {alumno_email}
+    Password: {alumno_password}
+
+    Puedes iniciar sesión en la plataforma.
             """
-    )
-    current_app.extensions['mail'].send(msg)
+        )
+        current_app.extensions['mail'].send(msg)
+        email_enviado = True
 
-    return jsonify({"msg": "Email enviado"}), 200
+    except smtplib.SMTPException as e:
+        current_app.logger.error(f"Error SMTP enviando correo al alumno: {e}")
+        current_app.logger.exception("Detalle del error SMTP")
+    except Exception as e:
+        current_app.logger.error(
+            f"Error inesperado enviando correo al alumno: {e}")
+        current_app.logger.exception("Detalle del error inesperado")
+
+    if email_enviado:
+        return jsonify({
+            "msg": "Alumno registrado y email enviado correctamente",
+            "alumno": new_user.serialize()
+        }), 201
+
+    return jsonify({
+        "msg": "Alumno registrado, pero no se pudo enviar el email",
+        "alumno": new_user.serialize(),
+        "email_enviado": False
+    }), 201
 
 # verificacion de token en todo momento, back y layout
 

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 
 const Navbar = () => {
@@ -33,7 +33,7 @@ const Navbar = () => {
   const irAPortal = (e) => {
     e.preventDefault();
 
-    
+
     if (usuario) {
       localStorage.removeItem("token");
       localStorage.removeItem("profesor");
@@ -53,7 +53,7 @@ const Navbar = () => {
       return;
     }
 
-   
+
   };
 
   return (
@@ -66,9 +66,9 @@ const Navbar = () => {
           style={{
             cursor:
               usuario ||
-              location.pathname === "/registro-profesor" ||
-              location.pathname === "/login-alumno" ||
-              location.pathname === "/dashboard/alumnos"
+                location.pathname === "/registro-profesor" ||
+                location.pathname === "/login-alumno" ||
+                location.pathname === "/dashboard/alumnos"
                 ? "pointer"
                 : "default",
           }}
@@ -79,9 +79,12 @@ const Navbar = () => {
 
         <div className="ms-auto d-flex align-items-center gap-3">
           {!usuario ? (
-            <a className="nav-link" href="/registro-profesor">
-              Comenzar
-            </a>
+            <Link to={"/registro-profesor"} >
+              <div className="nav-link" >
+                Comenzar
+              </div>
+
+            </Link>
           ) : (
             <>
               <span className="fw-semibold">
