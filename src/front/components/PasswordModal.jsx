@@ -24,7 +24,8 @@ export const PasswordModal = ({
 
     if (!show) return null;
 
-    const handleSave = async () => {
+    const handleSave = async (e) => {
+        e.preventDefault()
         console.log("funciona");
 
         setError("");
@@ -61,7 +62,7 @@ export const PasswordModal = ({
                 className={`modal ${show ? "show d-block" : ""}`}
                 tabIndex="-1"
                 role="dialog"
-                style={{ display: "block" ,backgroundColor: "#6200e8" }}
+                style={{ display: "block", backgroundColor: "#6200e8" }}
                 aria-modal="true"
             >
                 <div className="modal-dialog-centered ">
@@ -89,7 +90,7 @@ export const PasswordModal = ({
                                 {error}
                             </div>
                         )}
-                        <form>
+                        <form onSubmit={handleSave}>
                             <label className="form-label">Password</label>
                             <div className="input-group">
                                 <input
@@ -106,9 +107,8 @@ export const PasswordModal = ({
                             <div className="modal-footer border-0 pt-0">
 
                                 <button
-                                    type="button"
+                                    type="submit"
                                     className="btn btn -success"
-                                    onClick={handleSave}
                                     disable={saving}
                                 >
                                     {saving ? (
@@ -132,7 +132,7 @@ export const PasswordModal = ({
             </div>
 
 
-        
+
         </>
     )
 

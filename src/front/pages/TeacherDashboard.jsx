@@ -85,7 +85,7 @@ export default function TeacherDashboard() {
 
         <div className="card">
           <h3>Calificaciones cargadas</h3>
-          <p className="card-number">{gradesPercentage}</p>
+          <p className="card-number">{gradesPercentage} %</p>
           <span>Notas registradas correctamente.</span>
         </div>
       </div>
