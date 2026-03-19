@@ -10,13 +10,12 @@ import {
   materiasLista
 } from "../services/backendService";
 
-export const ModalCalificaciones = ({ show, onClose }) => {
-  const navigate = useNavigate();
+export const ModalCalificaciones = ({ show, onClose, recargarCalificaciones }) => {
   const { store, dispatch } = useGlobalReducer();
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
- 
+
   const [user, setUser] = useState({
     Salon: "",
     Alumno: "",
@@ -31,10 +30,12 @@ export const ModalCalificaciones = ({ show, onClose }) => {
 
   const [alumnosFiltrados, setAlumnosFiltrados] = useState([]);
   const [materiasFiltradas, setMateriasFiltradas] = useState([]);
+  console.log(materiasFiltradas);
+
 
   useEffect(() => {
     if (show) {
-      
+
       setUser({
         Salon: "",
         Alumno: "",
@@ -82,10 +83,10 @@ export const ModalCalificaciones = ({ show, onClose }) => {
     }
   }, [show]);
 
-  
+
   useEffect(() => {
     if (user.Salon) {
-      
+
       const alumnosSalon = todosAlumnos.filter(
         alumno => alumno.salon_id === parseInt(user.Salon)
       );
@@ -117,30 +118,29 @@ export const ModalCalificaciones = ({ show, onClose }) => {
   if (!show) return null;
 
   const handleSave = async (e) => {
-  e.preventDefault();
-  setError("");
-  setSaving(true);
+    e.preventDefault();
+    setError("");
+    setSaving(true);
 
-  const payload = {
-    alumno_id: Number(user.Alumno),
-    salon_materia_id: Number(user.Materia),
-    nota: parseFloat(user.Nota.replace(",", "."))
-  };
+    const payload = {
+      alumno_id: Number(user.Alumno),
+      salon_materia_id: Number(user.Materia),
+      nota: parseFloat(user.Nota.replace(",", "."))
+    };
 
-  console.log("PAYLOAD:", payload);
+    console.log("PAYLOAD:", payload);
 
-  const response = await calificacionRegistro(payload);
+    const response = await calificacionRegistro(payload);
 
-  if (response.error) {
-    setError(response.error);
+    if (response.error) {
+      setError(response.error);
+      setSaving(false);
+      return;
+    }
+    await recargarCalificaciones()
     setSaving(false);
-    return;
-  }
-
-  setSaving(false);
-  onClose();
-  navigate("/Calificaciones");
-};
+    onClose();
+  };
 
   const handleClose = () => {
     onClose();
@@ -226,7 +226,7 @@ export const ModalCalificaciones = ({ show, onClose }) => {
                       {user.Alumno ? "Selecciona una materia" : "Primero selecciona un alumno"}
                     </option>
                     {materiasFiltradas && materiasFiltradas.map(materia => (
-                      <option key={materia.id} value={materia.id}>
+                      <option key={materia.salon_materia_id} value={materia.salon_materia_id}>
                         {materia.nombre}
                       </option>
                     ))}

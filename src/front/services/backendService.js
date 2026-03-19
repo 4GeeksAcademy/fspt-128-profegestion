@@ -58,7 +58,6 @@ export const registroAlumno = async (user) => {
   return data;
 };
 
-
 export const loginAlumno = async (user) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/alumno/login`,
@@ -79,7 +78,7 @@ export const loginAlumno = async (user) => {
 };
 
 // devuelve alumnos guardados
-export const listaAlumnos = async () => { 
+export const listaAlumnos = async () => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/alumnos/lista`,
     {
@@ -90,15 +89,14 @@ export const listaAlumnos = async () => {
       },
     },
   );
-  
+
   if (!response.ok) {
     return { error: "No es posible mostrar la lista de alumnos" };
   }
-  
-  const data = await response.json();
-  return { data };  
-};
 
+  const data = await response.json();
+  return { data };
+};
 
 export const changeAlumnoPassword = async (newPassword) => {
   const token = localStorage.getItem("token");
@@ -123,6 +121,8 @@ export const changeAlumnoPassword = async (newPassword) => {
 };
 
 export const verifyToken = async (dispatch, navigate) => {
+  console.log("se ejecuta");
+
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
   if (!token || !role) {
@@ -172,8 +172,7 @@ export const crearMateria = async (materia) => {
   return data;
 };
 
-
-export const materiasLista = async () => {  
+export const materiasLista = async () => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/materias/lista`,
     {
@@ -184,17 +183,14 @@ export const materiasLista = async () => {
       },
     },
   );
-  
+
   if (!response.ok) {
     return { error: "No es posible mostrar la lista de materias" };
   }
-  
+
   const data = await response.json();
-  return { data }; 
+  return { data };
 };
-
-
-
 
 export const calificacionRegistro = async (user) => {
   const response = await fetch(
@@ -205,9 +201,7 @@ export const calificacionRegistro = async (user) => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
-
-
-      }
+      },
     },
   );
   const data = await response.json();
@@ -217,8 +211,7 @@ export const calificacionRegistro = async (user) => {
   return data;
 };
 
-
-export const salonesLista = async () => {  
+export const salonesLista = async () => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/salones/lista`,
     {
@@ -229,18 +222,18 @@ export const salonesLista = async () => {
       },
     },
   );
-  
+
   if (!response.ok) {
     return { error: "No es posible mostrar la lista de salones" };
   }
-  
+
   const data = await response.json();
-  return { data };  
+  return { data };
 };
 export const eliminarAlumno = async (alumno_id) => {
   const token = localStorage.getItem("token");
   console.log(alumno_id);
-  
+
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/alumno/eliminar/${alumno_id}`,
     {
@@ -254,6 +247,6 @@ export const eliminarAlumno = async (alumno_id) => {
   if (!response.ok) {
     alert("no se borro");
   }
-  
+
   return response;
 };
