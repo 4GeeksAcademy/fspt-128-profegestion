@@ -77,6 +77,28 @@ export const loginAlumno = async (user) => {
   return data;
 };
 
+// devuelve alumnos guardados
+export const listaAlumnos = async () => { 
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/alumnos/lista`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    },
+  );
+  
+  if (!response.ok) {
+    return { error: "No es posible mostrar la lista de alumnos" };
+  }
+  
+  const data = await response.json();
+  return { data };  
+};
+
+
 export const changeAlumnoPassword = async (newPassword) => {
   const token = localStorage.getItem("token");
   const response = await fetch(
@@ -147,4 +169,70 @@ export const crearMateria = async (materia) => {
     alert("algo salio mal en el registro");
   }
   return data;
+};
+
+
+export const materiasLista = async () => {  
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/materias/lista`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    },
+  );
+  
+  if (!response.ok) {
+    return { error: "No es posible mostrar la lista de materias" };
+  }
+  
+  const data = await response.json();
+  return { data }; 
+};
+
+
+
+
+export const calificacionRegistro = async (user) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/calificaciones/crear`,
+    {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+
+
+      }
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    alert("algo salio mal en el registro");
+  }
+  return data;
+};
+
+
+export const salonesLista = async () => {  
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/salones/lista`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    },
+  );
+  
+  if (!response.ok) {
+    return { error: "No es posible mostrar la lista de salones" };
+  }
+  
+  const data = await response.json();
+  return { data };  
 };

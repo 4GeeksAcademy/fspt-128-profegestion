@@ -1,19 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/dashboard.css";
+import { useState } from "react";
+import { useEffectEvent } from "react";
+import { ModalCalificaciones } from "../components/ModalCalificaciones";
+
+
 
 export const Calificaciones = () => {
-  const notas = [
-    { id: 1, alumno: "Ana Torres", materia: "Matemáticas", nota: 9.2 },
-    { id: 2, alumno: "Luis Pérez", materia: "Lengua", nota: 8.5 },
-    { id: 3, alumno: "María López", materia: "Ciencias", nota: 7.8 },
-  ];
+  const [showModal, setShowModal] = useState(false)
+  
+  const closeModal = () => {
+    setShowModal(false)
+  }
+
+   const onAddClick = () => {
+    setShowModal(true)
+  }
+  const  [notas,setNotas]= useState([]);
+
+
+//  useEffect(()=>{
+ 
+//  },[])
+  
 
   return (
     <div className="dashboard-container">
+    <ModalCalificaciones show={showModal} onClose={closeModal} setNotas={setNotas}/>
+      
       <h1 className="dashboard-title">Calificaciones</h1>
       <p className="dashboard-subtitle">Consulta y registra las notas de tus alumnos.</p>
 
-      <button className="btn-primary" style={{ marginBottom: "20px" }}>
+      <button onClick={onAddClick} className="btn-primary" style={{ marginBottom: "20px" }}>
         Cargar nuevas calificaciones
       </button>
 
@@ -27,15 +45,25 @@ export const Calificaciones = () => {
         </thead>
 
         <tbody>
-          {notas.map(n => (
-            <tr key={n.id}>
-              <td>{n.alumno}</td>
-              <td>{n.materia}</td>
-              <td>{n.nota}</td>
+          { notas.length > 0 ? (
+            notas.map(n => (
+              <tr key={n.id}>
+                <td>{n.alumno}</td>
+                <td>{n.materia}</td>
+                <td>{n.nota}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={3} style={{ textAlign: "center" }}>
+                No hay calificaciones registradas
+              </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>
   );
 };
+
+
