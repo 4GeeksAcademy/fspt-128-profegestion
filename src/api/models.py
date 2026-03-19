@@ -40,6 +40,9 @@ class Profesor(db.Model):
         cascade="all, delete-orphan"
     )
 
+    def __repr__(self):
+        return f'<Profesor {self.nombre}>'
+
     def serialize(self):
         return {
             "id": self.id,
@@ -80,6 +83,9 @@ class Alumno(db.Model):
     must_change_password: Mapped[bool] = mapped_column(
         default=True, nullable=False)
 
+    def __repr__(self):
+        return f'<Alumno {self.nombre}>'
+
     def serialize(self):
         return {
             "id": self.id,
@@ -119,6 +125,9 @@ class Salon(db.Model):
         back_populates="salon",
         cascade="all, delete-orphan"
     )
+
+    def __repr__(self):
+        return f'<Salon {self.nombre}>'
 
     def serialize(self):
         return {
@@ -176,6 +185,9 @@ class Materia(db.Model):
         cascade="all, delete-orphan"
     )
 
+    def __repr__(self):
+        return f'<Materia {self.nombre}>'
+
     def serialize(self):
         return {
             "id": self.id,
@@ -204,6 +216,9 @@ class SalonMateria(db.Model):
         back_populates="salon_materia",
         cascade="all, delete-orphan"
     )
+
+    def __repr__(self):
+        return f'<Salon {self.salon} Materia {self.materia}>'
 
     def serialize(self):
         return {
