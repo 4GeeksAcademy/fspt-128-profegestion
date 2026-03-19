@@ -51,7 +51,7 @@ export const NuevoAlumnoModal = ({
 
 
     await registroAlumno(user)
-    //navigate("/")  //vista de calificaciones del alumno
+  
     onClose()
   };
 

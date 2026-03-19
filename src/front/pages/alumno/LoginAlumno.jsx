@@ -53,8 +53,8 @@ export const LoginAlumno = () => {
             return;
         }
 
-        const perfil = await fetch(
-            "https://urban-telegram-wrjpp4rx7qp42gg7g-3001.app.github.dev/api/perfil/alumno",
+        const perfil = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/perfil/alumno`,
+        
             {
                 headers: {
                     Authorization: "Bearer " + response.token,
