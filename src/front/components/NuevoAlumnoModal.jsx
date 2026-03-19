@@ -57,7 +57,7 @@ export const NuevoAlumnoModal = ({
 
   const handleClose = () => {
     console.log("cierra");
-    dispatch({ type: "auth_logout" })
+ 
     onClose();
 
   };
