@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { verifyToken } from "../services/backendService";
+
+
 
 export const ModalCrearAula = ({ show, onClose, onCreate }) => {
   const [nombre, setNombre] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
 
   useEffect(() => {
     if (show) {
@@ -27,6 +31,7 @@ export const ModalCrearAula = ({ show, onClose, onCreate }) => {
     }
 
     await onCreate(nombre);
+  
     setSaving(false);
   };
 
